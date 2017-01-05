@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="ChatterBox.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:ChatterBox.Converters"
+    xmlns:views="using:ChatterBox.Views"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" Inverted="True" />
+    </Page.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid x:Name="ActiveRegion"
+              Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid x:Name="ContactsRegion">
+                <views:ContactsView DataContext="{Binding ContactsViewModel}" />
+            </Grid>
+        </Grid>
+        <Grid x:Name="InactiveRegion"
+              Visibility="{Binding IsActive, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
+            <Grid x:Name="WelcomeRegion"
+                  Visibility="{Binding WelcomeViewModel.IsCompleted, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
+                <views:WelcomeView DataContext="{Binding WelcomeViewModel}" />
+            </Grid>
+            <Grid x:Name="ConnectingRegion"
+                  Visibility="{Binding WelcomeViewModel.IsCompleted, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <views:ConnectingView DataContext="{Binding ConnectingViewModel}" />
+            </Grid>
+        </Grid>
+        <Grid x:Name="SettingsRegion"
+              Visibility="{Binding IsSettingsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <views:SettingsView DataContext="{Binding SettingsViewModel}" />
+        </Grid>
+    </Grid>
+</Page>

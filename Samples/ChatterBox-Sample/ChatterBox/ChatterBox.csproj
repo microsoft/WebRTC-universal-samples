@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{5DDBE40B-AB1C-45FF-8F59-064F884E8A62}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChatterBox</RootNamespace>
+    <AssemblyName>ChatterBox</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>ChatterBox_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="ChatterBox_StoreKey.pfx" />
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AttachedProperties\ActualSize.cs" />
+    <Compile Include="Behaviors\ListBoxAutoScrollBehavior.cs" />
+    <Compile Include="Behaviors\ReturnKeyCloseKeyboardBehavior.cs" />
+    <Compile Include="Behaviors\ReturnKeyCommandBehavior.cs" />
+    <Compile Include="Controls\CallState.cs" />
+    <Compile Include="Controls\CommunicationControl.cs" />
+    <Compile Include="Controls\IConversation.cs" />
+    <Compile Include="Controls\IInstantMessage.cs" />
+    <Compile Include="Converters\BooleanToStyleConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToBrushConverter.cs" />
+    <Compile Include="Converters\BoolToFontWeightConverter.cs" />
+    <Compile Include="Converters\EqualityToBooleanConverter.cs" />
+    <Compile Include="Converters\CallStateToVisibilityConverter.cs" />
+    <Compile Include="Converters\FormatDateTimeConverter.cs" />
+    <Compile Include="Converters\LayoutTypeToStyleConverter.cs" />
+    <Compile Include="Converters\NegatedBoolConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\ProportionalConverter.cs" />
+    <Compile Include="MVVM\BindableBase.cs" />
+    <Compile Include="MVVM\DelegateCommand.cs" />
+    <Compile Include="MVVM\DispatcherBindableBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FrameFormatEventArgs.cs" />
+    <Compile Include="Services\HubClient.cs" />
+    <Compile Include="Services\IForegroundUpdateService.cs" />
+    <Compile Include="Services\LayoutService.cs" />
+    <Compile Include="Services\LayoutType.cs" />
+    <Compile Include="Services\NtpService.cs" />
+    <Compile Include="Services\ServicesBindingHelper.cs" />
+    <Compile Include="StyleSelectors\InstantMessageStyleSelector.cs" />
+    <Compile Include="ViewModels\ConnectingViewModel.cs" />
+    <Compile Include="ViewModels\ContactsViewModel.cs" />
+    <Compile Include="ViewModels\ConversationViewModel.cs" />
+    <Compile Include="ViewModels\IceServerViewModel.cs" />
+    <Compile Include="ViewModels\InstantMessageViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\WelcomeViewModel.cs" />
+    <Compile Include="Views\ConnectingView.xaml.cs">
+      <DependentUpon>ConnectingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContactsView.xaml.cs">
+      <DependentUpon>ContactsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WelcomeView.xaml.cs">
+      <DependentUpon>WelcomeView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ChatterBox_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Avatars\0.jpg" />
+    <Content Include="Assets\Avatars\1.jpg" />
+    <Content Include="Assets\Avatars\10.jpg" />
+    <Content Include="Assets\Avatars\11.jpg" />
+    <Content Include="Assets\Avatars\12.jpg" />
+    <Content Include="Assets\Avatars\13.jpg" />
+    <Content Include="Assets\Avatars\14.jpg" />
+    <Content Include="Assets\Avatars\15.jpg" />
+    <Content Include="Assets\Avatars\16.jpg" />
+    <Content Include="Assets\Avatars\2.jpg" />
+    <Content Include="Assets\Avatars\3.jpg" />
+    <Content Include="Assets\Avatars\4.jpg" />
+    <Content Include="Assets\Avatars\5.jpg" />
+    <Content Include="Assets\Avatars\6.jpg" />
+    <Content Include="Assets\Avatars\7.jpg" />
+    <Content Include="Assets\Avatars\8.jpg" />
+    <Content Include="Assets\Avatars\9.jpg" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\Ringtones\IncomingCall.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Ringtones\OutgoingCall.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConnectingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ContactsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WelcomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BackgroundHost\BackgroundHost.vcxproj">
+      <Project>{4497e847-8611-4545-bdbe-ce9744c7013c}</Project>
+      <Name>BackgroundHost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatterBox.Background\ChatterBox.Background.csproj">
+      <Project>{e982c08b-4f8f-47c4-ab8c-8b7f36ccb682}</Project>
+      <Name>ChatterBox.Background</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatterBox.Client.WebRTCSwapChainPanel\ChatterBox.Client.WebRTCSwapChainPanel.vcxproj">
+      <Project>{ee989715-f6b1-4bdc-8bfc-ba5ca5567abb}</Project>
+      <Name>ChatterBox.Client.WebRTCSwapChainPanel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatterBox.Communication\ChatterBox.Communication.csproj">
+      <Project>{724446b9-496e-4b7a-b944-0f79ecde77f0}</Project>
+      <Name>ChatterBox.Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatterBoxClient.Universal.BackgroundRenderer\ChatterBoxClient.Universal.BackgroundRenderer.vcxproj">
+      <Project>{974fcab6-06ed-40d5-954b-11157513f077}</Project>
+      <Name>ChatterBoxClient.Universal.BackgroundRenderer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

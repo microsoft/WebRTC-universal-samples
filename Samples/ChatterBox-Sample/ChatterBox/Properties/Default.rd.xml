@@ -1,0 +1,43 @@
+<!--
+    This file contains Runtime Directives used by .NET Native. The defaults here are suitable for most
+    developers. However, you can modify these parameters to modify the behavior of the .NET Native
+    optimizer.
+
+    Runtime Directives are documented at http://go.microsoft.com/fwlink/?LinkID=391919
+
+    To fully enable reflection for App1.MyClass and all of its public/private members
+    <Type Name="App1.MyClass" Dynamic="Required All"/>
+
+    To enable dynamic creation of the specific instantiation of AppClass<T> over System.Int32
+    <TypeInstantiation Name="App1.AppClass" Arguments="System.Int32" Activate="Required Public" />
+
+    Using the Namespace directive to apply reflection policy to all the types in a particular namespace
+    <Namespace Name="DataClasses.ViewModels" Seralize="All" />
+-->
+
+<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
+  <Application>
+    <!--
+      An Assembly element with Name="*Application*" applies to all assemblies in
+      the application package. The asterisks are not wildcards.
+    -->
+    <Assembly Name="*Application*" Dynamic="Required All" Serialize="Required All" />
+
+    <Namespace Name="ChatterBox.Background.Signaling.Dto"             Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+    <Namespace Name="ChatterBox.Background.AppService.Dto"            Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+    <Namespace Name="ChatterBox.Background.AppService"                Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+    <Namespace Name="ChatterBox.Communication.Messages.Interfaces"    Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+    <Namespace Name="ChatterBox.Communication.Messages.Peers"         Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+    <Namespace Name="ChatterBox.Communication.Messages.Registration"  Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+    <Namespace Name="ChatterBox.Communication.Messages.Standard"      Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+    <Namespace Name="ChatterBox.Communication.Contracts"              Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+
+    <Type Name="ChatterBox.Communication.Messages.Relay.RelayMessage" Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+    <Type Name="ChatterBox.Background.SignalingSocketService"         Dynamic="All" Browse="All" />
+    <Type Name="ChatterBox.Background.Signaling.SignalingClient"      Dynamic="All" Browse="All" />
+    <Type Name="ChatterBox.Background.ForegroundClient"               Dynamic="All" />
+    <Type Name="ChatterBox.Background.Hub"                            Dynamic="Required All" />
+    <Type Name="Windows.Graphics.Display.DisplayOrientations"         Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+
+  </Application>
+</Directives>

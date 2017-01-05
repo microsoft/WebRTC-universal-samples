@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>ef841503-239d-4c2a-ba49-f15fcc3a1dbd</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="MediaEngineNotify.cpp" />
+    <ClCompile Include="SchemeHandler.cpp" />
+    <ClCompile Include="RemoteHandle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="MediaEngineNotifyCallback.h" />
+    <ClInclude Include="MediaEngineNotify.h" />
+    <ClInclude Include="SchemeHandler.h" />
+    <ClInclude Include="RemoteHandle.h" />
+  </ItemGroup>
+</Project>

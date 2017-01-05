@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>7fba9ac3-a3e4-4c99-9c3b-f1c76bf2ff59</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ChatterBox.Communication.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IClientChannel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IServerChannel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ChannelInvoker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ChannelWriteHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\InvocationResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Interfaces\IMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Interfaces\IMessageConfirmation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Interfaces\IMessageReply.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Peers\PeerData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Peers\PeerList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Peers\PeerUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Registration\RegisteredReply.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Registration\Registration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Relay\RelayMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Relay\RelayMessageTags.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Standard\Confirmation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Standard\ErrorReply.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Standard\InvalidMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Standard\Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\Standard\OkReply.cs" />
+  </ItemGroup>
+</Project>

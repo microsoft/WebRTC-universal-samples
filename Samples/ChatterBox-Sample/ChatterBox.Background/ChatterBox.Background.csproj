@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E982C08B-4F8F-47C4-AB8C-8B7F36CCB682}</ProjectGuid>
+    <OutputType>winmdobj</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChatterBox.Background</RootNamespace>
+    <AssemblyName>ChatterBox.Background</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;_APP_PERFORMANCE_</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;_APP_PERFORMANCE_</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;USE_WIN10_PHONE_DLL;_APP_PERFORMANCE_</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;USE_WIN10_PHONE_DLL;_APP_PERFORMANCE_</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;_APP_PERFORMANCE_</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>..\Output\$(MSBuildProjectName)\bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\Output\$(MSBuildProjectName)\obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppService\Dto\CallType.cs" />
+    <Compile Include="AppService\Dto\MediaDeviceLocation.cs" />
+    <Compile Include="AppService\Dto\StatsConfig.cs" />
+    <Compile Include="AudioVideoMetricsCollector.cs" />
+    <Compile Include="AppService\Dto\CaptureCapabilities.cs" />
+    <Compile Include="AppService\Dto\CaptureCapability.cs" />
+    <Compile Include="AppService\Dto\CodecInfo.cs" />
+    <Compile Include="AppService\Dto\CodecInfos.cs" />
+    <Compile Include="AppService\Dto\MediaDevice.cs" />
+    <Compile Include="AppService\Dto\MediaDevices.cs" />
+    <Compile Include="AppService\Dto\MediaRatio.cs" />
+    <Compile Include="AppService\Dto\VideoCaptureFormat.cs" />
+    <Compile Include="AppService\Dto\CallState.cs" />
+    <Compile Include="AppService\Dto\CallStatus.cs" />
+    <Compile Include="AppService\Dto\ForegroundState.cs" />
+    <Compile Include="AppService\Dto\FrameFormat.cs" />
+    <Compile Include="AppService\Dto\FrameRate.cs" />
+    <Compile Include="AppService\Dto\MediaDeviceChangeType.cs" />
+    <Compile Include="AppService\Dto\MediaDevicesChange.cs" />
+    <Compile Include="AppService\IForegroundChannel.cs" />
+    <Compile Include="AppService\IMediaSettingsChannel.cs" />
+    <Compile Include="AppService\Dto\ConnectionOwner.cs" />
+    <Compile Include="AppService\Dto\ConnectionStatus.cs" />
+    <Compile Include="AppService\ISignalingSocketChannel.cs" />
+    <Compile Include="AppService\Dto\IncomingCallReject.cs" />
+    <Compile Include="AppService\Dto\MicrophoneConfig.cs" />
+    <Compile Include="AppService\Dto\OutgoingCallRequest.cs" />
+    <Compile Include="AppService\Dto\TraceServerConfig.cs" />
+    <Compile Include="AppService\Dto\VideoConfig.cs" />
+    <Compile Include="AppService\Dto\VideoControlSize.cs" />
+    <Compile Include="Avatars\AvatarLink.cs" />
+    <Compile Include="Call\States\Held.cs" />
+    <Compile Include="ETWEventLogger.cs" />
+    <Compile Include="ChatterBoxETWEventSource.cs" />
+    <Compile Include="Helpers\XmlDataContractSerializationHelper.cs" />
+    <Compile Include="Helpers\XmlSerializationHelper.cs" />
+    <Compile Include="Notifications\ArgumentType.cs" />
+    <Compile Include="Notifications\NotificationType.cs" />
+    <Compile Include="Notifications\PushNotificationHelper.cs" />
+    <Compile Include="Notifications\ToastNotificationLaunchArguments.cs" />
+    <Compile Include="Notifications\ToastNotificationService.cs" />
+    <Compile Include="Settings\IceServer.cs" />
+    <Compile Include="Settings\IceServerSettings.cs" />
+    <Compile Include="Settings\MediaSettingsIds.cs" />
+    <Compile Include="Settings\RegistrationSettings.cs" />
+    <Compile Include="Settings\SettingsExtensions.cs" />
+    <Compile Include="Settings\SignalingSettings.cs" />
+    <Compile Include="Signaling\Dto\DtoIceCandidate.cs" />
+    <Compile Include="Signaling\Dto\DtoIceCandidates.cs" />
+    <Compile Include="Signaling\ISignalingSocketOperation.cs" />
+    <Compile Include="Signaling\ISignalingSocketService.cs" />
+    <Compile Include="Signaling\ISocketConnection.cs" />
+    <Compile Include="Signaling\PersistedData\ReceivedPushNotifications.cs" />
+    <Compile Include="Signaling\PersistedData\SignaledInstantMessages.cs" />
+    <Compile Include="Signaling\PersistedData\SignaledPeerData.cs" />
+    <Compile Include="Signaling\PersistedData\SignalingStatus.cs" />
+    <Compile Include="Signaling\SignalingClient.cs" />
+    <Compile Include="Signaling\SocketConnection.cs" />
+    <Compile Include="Tasks\BackgroundTaskDeferralWrapper.cs" />
+    <Compile Include="Tasks\TaskHelper.cs" />
+    <Compile Include="Call\IVideoRenderHelper.cs" />
+    <Compile Include="AppService\ICallChannel.cs" />
+    <Compile Include="Call\RenderFormatUpdateHandler.cs" />
+    <Compile Include="ForegroundClient.cs" />
+    <Compile Include="Helpers\AppServiceChannelHelper.cs" />
+    <Compile Include="Hub.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignalingSocketOperation.cs" />
+    <Compile Include="SignalingSocketChannel.cs" />
+    <Compile Include="StatsManager.cs" />
+    <Compile Include="Tasks\ForegroundAppServiceTask.cs" />
+    <Compile Include="Tasks\PushNotificationTask.cs" />
+    <Compile Include="Tasks\SessionConnectedTask.cs" />
+    <Compile Include="Tasks\SignalingTask.cs" />
+    <Compile Include="Tasks\VoipTask.cs" />
+    <Compile Include="Call\DtoExtensions.cs" />
+    <Compile Include="Call\IHub.cs" />
+    <Compile Include="Call\MediaSettingsChannel.cs" />
+    <Compile Include="Call\RtcManager.cs" />
+    <Compile Include="Call\States\Active.cs" />
+    <Compile Include="Call\States\BaseCallState.cs" />
+    <Compile Include="Call\States\EstablishIncoming.cs" />
+    <Compile Include="Call\States\EstablishOutgoing.cs" />
+    <Compile Include="Call\States\HangingUp.cs" />
+    <Compile Include="Call\States\Idle.cs" />
+    <Compile Include="Call\States\Interfaces\IVoipHelper.cs" />
+    <Compile Include="Call\States\LocalRinging.cs" />
+    <Compile Include="Call\States\RemoteRinging.cs" />
+    <Compile Include="Call\Utils\MEMData.cs" />
+    <Compile Include="Call\Utils\AutoLock.cs" />
+    <Compile Include="Call\Utils\CPUData.cs" />
+    <Compile Include="Call\Utils\NtStatus.cs" />
+    <Compile Include="Call\Utils\ProcessorArchitecture.cs" />
+    <Compile Include="Call\Utils\PROCESS_MEMORY_COUNTERS_EX.cs" />
+    <Compile Include="Call\Utils\SdpUtils.cs" />
+    <Compile Include="Call\Utils\SystemInfo.cs" />
+    <Compile Include="Call\Utils\SYSTEM_INFORMATION_CLASS.cs" />
+    <Compile Include="Call\Utils\WebRtcSettingsUtils.cs" />
+    <Compile Include="Call\VideoRenderHelper.cs" />
+    <Compile Include="Call\CallChannel.cs" />
+    <Compile Include="Call\CallContext.cs" />
+    <Compile Include="Call\VoipHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChatterBox.Communication\ChatterBox.Communication.csproj">
+      <Project>{724446B9-496E-4B7A-B944-0F79ECDE77F0}</Project>
+      <Name>ChatterBox.Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatterBoxClient.Universal.BackgroundRenderer\ChatterBoxClient.Universal.BackgroundRenderer.vcxproj">
+      <Project>{974fcab6-06ed-40d5-954b-11157513f077}</Project>
+      <Name>ChatterBoxClient.Universal.BackgroundRenderer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,34 @@
+﻿Communication Control
+-----------------------
+
+The Communication Control is a layout-only control that can be used to easily setup a user interface for application supporting IM, audio calls and video calls.
+The control allows the developer to easily add a list of conversations and have the interface react to the state of the conversations.
+
+
+--- Developer Information ---
+The Communication Control is a layout only control that renders a list of conversations and adjust the UI according the the state of each item.
+Due to the RelativeSource limitation (listed below), the control requires a set of interfaces to allow proper bindings, namely IConversation and IInstantMessage.
+RelativeSource limitation:
+RelativeSource FindAncestor is not available, making the posibility of a binding from an inner control to the parent control's dependency properties impossible.
+Due to this limitation, in order to effectively bind the UI commands and states to each item, an interface has to be used.
+
+
+
+--- Using the control ---
+An instance of the control can be defined in XAML and then customized via the dependency properties it exposes.
+Example:
+
+<controls:CommunicationControl Conversations="{Binding Conversations}"
+                               SelectedConversation="{Binding SelectedConversation, Mode=TwoWay}"
+                               ContactListHeaderTemplate="{StaticResource ContactListHeaderTemplate}">
+</controls:CommunicationControl>
+
+Each item in the source of Conversations has to implement the IConversation interface.
+In order to get updates in the UI via bindings, the item object should implement INotifyPropertyChanged interface as well.
+
+For video rendering, the source item must set the "LocalVideoRenderer" and "RemoteVideoRenderer" properties with instances of controls that can be used to render a video stream (ex: MediaElement, SwapChainPanel, etc.).
+
+The "CallState" property of the interface controls the state of the UI, defining which UI elements are visible at what time.
+Example:
+In Idle, the IM elements, audio call and video call controls are visible and enabled.
+In Local and Remote ringing states, audio and video controls and local and remote video render controls are visible and enabled, while the IM interface is hidden and disabled.

@@ -1,0 +1,62 @@
+﻿<UserControl
+    x:Class="ChatterBox.Views.ContactsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:ChatterBox.Converters"
+    xmlns:controls="using:ChatterBox.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400" x:Name="ContactsViewControl">
+    <UserControl.Resources>
+        <Style x:Key="OverlayStyle" TargetType="ItemsControl">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ParallelStyle" TargetType="ItemsControl">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="400" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="ContactListHeaderTemplate">
+            <Grid>
+                <TextBlock Text="Chatter Members" Margin="12,5" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <Button HorizontalAlignment="Right" FontFamily="Segoe UI Symbol" Content="&#xE115;" Margin="5"
+                        Command="{Binding ElementName=ContactsViewControl, Path=DataContext.ShowSettings}" />
+            </Grid>
+        </DataTemplate>
+        <converters:BooleanToStyleConverter x:Key="BooleanToStyleConverter" TrueStyle="{StaticResource ParallelStyle}"
+                                            FalseStyle="{StaticResource OverlayStyle}" />
+    </UserControl.Resources>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0" />
+
+        </Grid.RowDefinitions>
+        <controls:CommunicationControl Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                       Conversations="{Binding Conversations}"
+                                       SelectedConversation="{Binding SelectedConversation, Mode=TwoWay}"
+                                       LayoutRootStyle="{Binding ElementName=ContactsViewControl , Path=DataContext.ShowAsParallel, Converter={StaticResource BooleanToStyleConverter}}"
+                                       ContactListHeaderTemplate="{StaticResource ContactListHeaderTemplate}" />
+        <MediaElement x:Name="RingtoneElement" Grid.Row="1" />
+    </Grid>
+
+
+</UserControl>
