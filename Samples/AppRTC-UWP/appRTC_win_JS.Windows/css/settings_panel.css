@@ -1,0 +1,101 @@
+.appSetting{
+  position:absolute;
+  top: 2%;
+  left: 20%;
+  width:50%;
+  height:65%;
+  background: black;
+  color: #00ccff;
+  padding: 20px;
+  
+  z-index:100;
+}
+.hidden{
+  display:none;
+}
+
+.serverIpLabel {
+   padding-left: 10%;
+    width: 80%;
+    float: left;
+}
+.setting-textfield{
+  height:25px !important;
+}
+.setting-header{
+  padding-top:10px;
+  padding-bottom:20px;
+}
+.setting-item {
+  padding-left:10px;
+  padding-top: 5px;
+}
+
+.appSettingButton{
+  padding-left:5%;
+  position:absolute;
+  top: 80px;
+}
+
+.setting-titlebar {
+  margin-left: 200px;
+  margin-top: 6px;
+  margin-bottom: 20px;
+  vertical-align: middle;
+}
+.device-list{
+  background-color:white;
+  color:black;
+  padding-top:15PX;
+}
+.device-item{
+  color: black;
+  height:25px;
+  padding-left:20px;
+  padding-right:20px;
+  font-size:medium;
+  background: white;
+}
+.win-container{
+    background-color: white;
+}
+
+#videoList.win-listview,
+#audioList.win-listview {
+  background-color: white;
+  width:60%;
+  margin-left:10%;
+}
+
+#videoList.win-listview{
+    max-height:60px;
+}
+
+#audioList.win-listview {
+  max-height:100px;
+}
+
+.win-selectionbackground {
+    opacity: 0;
+}
+
+.setting-item .win-title{
+  color: #00ccff !important;
+}
+
+.setting-item .win-label{
+  color: #00ccff !important;
+}
+
+#setting {
+  transition: 360ms;
+}
+
+#setting:hover {
+  background: #dd2c00;
+}
+#setting:hover circle {
+  fill: #dd2c00;
+}
+
+

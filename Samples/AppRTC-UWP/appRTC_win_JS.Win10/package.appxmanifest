@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<Package IgnorableNamespaces="uap mp" xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10">
+  <Identity Name="6c1b2de1-79fc-4ec4-ab53-b1f666943efa" Publisher="CN=fredl" Version="1.1.22.0" />
+  <mp:PhoneIdentity PhoneProductId="6c1b2de1-79fc-4ec4-ab53-b1f666943efa" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>appRTC_win_JS.Win10</DisplayName>
+    <PublisherDisplayName>fredl</PublisherDisplayName>
+    <Logo>images\storelogo.png</Logo>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily MaxVersionTested="10.0.10069.0" MinVersion="10.0.10069.0" Name="Windows.Universal" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" StartPage="default.html">
+      <uap:VisualElements BackgroundColor="#464646" Description="appRTC_win_JS.Win10" DisplayName="appRTC_win_JS.Win10" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png">
+        <uap:DefaultTile>
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="images\splashscreen.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <Capability Name="internetClientServer" />
+    <Capability Name="privateNetworkClientServer" />
+    <DeviceCapability Name="microphone" />
+    <DeviceCapability Name="webcam" />
+  </Capabilities>
+</Package>
