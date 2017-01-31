@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="DataChannelOrtc.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DataChannelOrtc"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <RelativePanel>
+            <ListBox x:Name="uxPeers" ItemsSource="{x:Bind Peers}" SelectedItem="{x:Bind SelectedPeer,Mode=TwoWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.LeftOf="uxConnectToPeer" RelativePanel.AlignTopWithPanel="True" MaxHeight="200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button x:Name="uxConnectToPeer" Click="uxConnectToPeer_Click" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Content="Connect"/>
+            <TextBlock x:Name="uxConversation" Text="{x:Bind Conversation, Mode=OneWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="uxPeers" RelativePanel.Above="uxMessage"/>
+            <TextBox x:Name="uxMessage" Text="{x:Bind Message, Mode=TwoWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.LeftOf="uxSend"/>
+            <Button x:Name="uxSend" Click="uxSend_Click" IsEnabled="{x:Bind IsSendEnabled, Mode=OneWay}" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
+                <SymbolIcon Symbol="Send"/>
+            </Button>
+        </RelativePanel>
+    </Grid>
+</Page>
