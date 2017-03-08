@@ -187,13 +187,15 @@ if (webrtc_winrt_api) {
       element.videoTrack = stream.getVideoTracks().first().current;
       element.srcId = stream.id;
       element.stream = stream;
-      var streamSource = aMedia.createMediaStreamSource(element.videoTrack, 30, stream.id);
-      element.msStreamSource = streamSource;
-      element.src = URL.createObjectURL(streamSource);
+      var streamSource = aMedia.createMediaSource(element.videoTrack, stream.id);
+      var mediaSource = Windows.Media.Core.MediaSource.createFromIMediaSource(streamSource);
+      var mediaPlaybackItem = new Windows.Media.Playback.MediaPlaybackItem(mediaSource);
+      var playlist = new Windows.Media.Playback.MediaPlaybackList();
+      playlist.items.append(mediaPlaybackItem);
+      element.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
       element.onError = function () {
-        var ss = aMedia.createMediaStreamSource(element.videoTrack, 30, stream.id);
-        element.src = URL.createObjectURL(ss);
-        element.stream = ss;
+          var ss = aMedia.createMediaSource(element.videoTrack, stream.id);
+          element.stream = ss;
       };
     }
   };
@@ -212,14 +214,16 @@ if (webrtc_winrt_api) {
       && stream.getVideoTracks() && stream.getVideoTracks().length > 0) {
       to.msRealTime = true;
       to.videoTrack = stream.getVideoTracks().first().current;
-      var streamSource = aMedia.createMediaStreamSource(to.videoTrack, 30, "SomeId");
-      to.msStreamSource = streamSource;
+      var streamSource = aMedia.createMediaSource(to.videoTrack, "SomeId");
+      var mediaSource = Windows.Media.Core.MediaSource.createFromIMediaSource(streamSource);
+      var mediaPlaybackItem = new Windows.Media.Playback.MediaPlaybackItem(mediaSource);
+      var playlist = new Windows.Media.Playback.MediaPlaybackList();
+      playlist.items.append(mediaPlaybackItem);
+      to.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
       to.onError = function () {
-        var ss = aMedia.createMediaStreamSource(to.videoTrack, 30, "SomeId");
-        to.src = URL.createObjectURL(ss);
-        to.stream = ss;
+          var ss = aMedia.createMediaSource(to.videoTrack, "SomeId");
+          to.stream = ss;
       };
-      to.src = URL.createObjectURL(streamSource);
     }
   };
   // save on navigator object so if set to null by app we can override that after

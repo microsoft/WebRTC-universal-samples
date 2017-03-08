@@ -14,7 +14,7 @@
 
 // Generate random room id and connect.
 
-var roomServer = 'https://apprtc.appspot.com';
+var roomServer = 'https://appr.tc';
 //var roomServer = 'http://localhost:8080';
 var loadingParams = {
   errorMessages: [],
