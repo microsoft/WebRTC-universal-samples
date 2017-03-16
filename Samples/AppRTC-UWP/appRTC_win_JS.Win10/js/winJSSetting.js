@@ -11,8 +11,8 @@
 
     ready: function (element, options) {
 
-      webrtc_winrt_api.WinJSHooks.requestAccessForMediaCapture().then(function (requested) {
-        webrtc_winrt_api.WinJSHooks.initialize();
+      Org.WebRtc.WinJSHooks.requestAccessForMediaCapture().then(function (requested) {
+        Org.WebRtc.WinJSHooks.initialize();
         setupDeviceSelectionUI();
 
         setupTraceUI();
@@ -26,7 +26,7 @@
   function setupDeviceSelectionUI() {
     //setup devices list UI
 
-    var localMedia = webrtc_winrt_api.Media.createMedia();
+    var localMedia = Org.WebRtc.Media.createMedia();
 
     var localAudioDevices = [];
     var audioDeviceList = localMedia.getAudioCaptureDevices();
@@ -101,10 +101,10 @@
   function setupTraceUI() {
 
 
-      document.getElementById("tracingSwitch").winControl.checked = webrtc_winrt_api.WinJSHooks.isTracing();
+      document.getElementById("tracingSwitch").winControl.checked = Org.WebRtc.WinJSHooks.isTracing();
       document.getElementById("tracingSwitch").addEventListener("change", tracingToggled);
 
-      toggleTraceServerControls(webrtc_winrt_api.WinJSHooks.isTracing())
+      toggleTraceServerControls(Org.WebRtc.WinJSHooks.isTracing())
     }
 
     function toggleTraceServerControls(enable) {
@@ -115,7 +115,7 @@
     function saveTrace() {
       var serverIp = document.getElementById("trace-server-ip").value;
       var serverPort = parseInt(document.getElementById("trace-server-port").value);
-      webrtc_winrt_api.WinJSHooks.saveTrace(serverIp, serverPort);
+      Org.WebRtc.WinJSHooks.saveTrace(serverIp, serverPort);
     }
 
     function tracingToggled(evt) {
@@ -123,10 +123,10 @@
 
 
       if (enabled) {
-        webrtc_winrt_api.WinJSHooks.startTracing();
+        Org.WebRtc.WinJSHooks.startTracing();
       }
       else {
-        webrtc_winrt_api.WinJSHooks.stopTracing();
+        Org.WebRtc.WinJSHooks.stopTracing();
         saveTrace();
       }
 

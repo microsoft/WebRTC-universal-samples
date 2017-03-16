@@ -29,7 +29,7 @@ function alert(text) {
   trace(text);
 }
 
-if (webrtc_winrt_api) {
+if (Org.WebRtc) {
   console.log('This appears to be WinJS');
 
   // these are set to null in apprtc.debug.js, so override with ones set in webrtc_winJS_api.js
