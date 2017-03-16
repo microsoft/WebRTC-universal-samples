@@ -433,7 +433,7 @@ var AppController = function (loadingParams) {
   this.fullscreenIconSet_ = new AppController.IconSet_(UI_CONSTANTS.fullscreenSvg);
   this.loadingParams_ = loadingParams;
   this.loadUrlParams_();
-  if (webrtc_winrt_api) {
+  if (Org.WebRtc) {
     var app = WinJS.Application;
 
     var promiseErrhandled = false;
@@ -451,7 +451,7 @@ var AppController = function (loadingParams) {
         promiseErrHappened = true;
 
         app.alert("Sorry, can not join this meeting room.\nplease try a different room.\n" + value, function () {
-          webrtc_winrt_api.Media.onAppSuspending();
+          Org.WebRtc.Media.onAppSuspending();
           window.location = "/default.html"; //reload
         });
 
@@ -506,7 +506,7 @@ AppController.prototype.processWinRTAppSuspending_ = function () {
   if (this.call_ != null) {
     this.call_.onWinRTAppSuspending();
   }
-  webrtc_winrt_api.Media.onAppSuspending();
+  Org.WebRtc.Media.onAppSuspending();
   window.location = "/default.html"; //reload
 }
 

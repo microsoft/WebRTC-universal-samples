@@ -8,7 +8,7 @@ var RTCSessionDescription = null;
 var RTCPeerConnection = null;
 
 
-if (webrtc_winrt_api) {
+if (Org.WebRtc) {
 
   function Promise(executor) {
     var self = this;
@@ -76,8 +76,8 @@ if (webrtc_winrt_api) {
   }
 
   // ask for permission to access camera, then initialize api
-  webrtc_winrt_api.WinJSHooks.requestAccessForMediaCapture().then(function (requested) {
-    webrtc_winrt_api.WinJSHooks.initialize();
+  Org.WebRtc.WinJSHooks.requestAccessForMediaCapture().then(function (requested) {
+    Org.WebRtc.WinJSHooks.initialize();
 
   });
 
@@ -86,11 +86,11 @@ if (webrtc_winrt_api) {
   //webrtcDetectedVersion = null;
 
   getUserMedia = function (constraints, onSuccess, onError) {
-    var constraintsOverride = new webrtc_winrt_api.RTCMediaStreamConstraints();
+    var constraintsOverride = new Org.WebRtc.RTCMediaStreamConstraints();
     constraintsOverride.audioEnabled = true;
     constraintsOverride.videoEnabled = true;
 
-    var localMedia = webrtc_winrt_api.Media.createMedia();
+    var localMedia = Org.WebRtc.Media.createMedia();
 
 
     var selectedAudio = null;
@@ -146,14 +146,14 @@ if (webrtc_winrt_api) {
 
   navigator.releaseUserMedia = releaseUserMedia;
 
-  RTCBundlePolicy = webrtc_winrt_api.RTCBundlePolicy;
-  RTCIceTransportPolicy = webrtc_winrt_api.RTCIceTransportPolicy;
+  RTCBundlePolicy = Org.WebRtc.RTCBundlePolicy;
+  RTCIceTransportPolicy = Org.WebRtc.RTCIceTransportPolicy;
 
   RTCConfiguration = function () {
-    return new webrtc_winrt_api.RTCConfiguration();
+    return new Org.WebRtc.RTCConfiguration();
   };
   RTCIceServer = function () {
-    return new webrtc_winrt_api.RTCIceServer();
+    return new Org.WebRtc.RTCIceServer();
   };
   RTCIceCandidate = function (candidate) {
     if (candidate !== undefined) {
@@ -167,19 +167,19 @@ if (webrtc_winrt_api) {
   RTCSessionDescription = function (message) {
     var sdpType;
     if (message.type == 'offer') {
-      sdpType = webrtc_winrt_api.RTCSdpType.offer;
+      sdpType = Org.WebRtc.RTCSdpType.offer;
     }
     else if (message.type == 'answer') {
-      sdpType = webrtc_winrt_api.RTCSdpType.answer;
+      sdpType = Org.WebRtc.RTCSdpType.answer;
     }
     else {
-      sdpType = webrtc_winrt_api.RTCSdpType.pranswer;
+      sdpType = Org.WebRtc.RTCSdpType.pranswer;
     }
-    return new webrtc_winrt_api.RTCSessionDescription(sdpType, message.sdp);
+    return new Org.WebRtc.RTCSessionDescription(sdpType, message.sdp);
   };
 
   attachMediaStream = function (element, stream) {
-    var aMedia = webrtc_winrt_api.Media.createMedia();
+    var aMedia = Org.WebRtc.Media.createMedia();
     if (stream && stream.getVideoTracks()
       && stream.getVideoTracks().length > 0) {
       element.msRealTime = true;
@@ -209,7 +209,7 @@ if (webrtc_winrt_api) {
     to.msRealTime = true;
     to.stream = from.stream;
     var stream = from.stream;
-    var aMedia = webrtc_winrt_api.Media.createMedia();
+    var aMedia = Org.WebRtc.Media.createMedia();
     if (stream && stream.getVideoTracks()
       && stream.getVideoTracks() && stream.getVideoTracks().length > 0) {
       to.msRealTime = true;
@@ -231,9 +231,9 @@ if (webrtc_winrt_api) {
 
   RTCPeerConnection = function (pcConfig, pcConstraints) {
     //Todo: do we need to implement pcConstraints in C++/CX API?
-    var winrtConfig = new webrtc_winrt_api.RTCConfiguration();
+    var winrtConfig = new Org.WebRtc.RTCConfiguration();
     if (pcConfig.iceServers && pcConfig.iceServers.length > 0) {
-      var iceServer = new webrtc_winrt_api.RTCIceServer();
+      var iceServer = new Org.WebRtc.RTCIceServer();
       if (pcConfig.iceServers[0].urls != null) {
         iceServer.url = pcConfig.iceServers[0].urls[0];
       } else {
@@ -246,7 +246,7 @@ if (webrtc_winrt_api) {
 
     }
 
-    var nativePC = new webrtc_winrt_api.RTCPeerConnection(winrtConfig);
+    var nativePC = new Org.WebRtc.RTCPeerConnection(winrtConfig);
     var pc = {};
     pc.remoteDescription = null;
     pc.localDescription = null;
@@ -344,7 +344,7 @@ if (webrtc_winrt_api) {
       return bound(label, init);
     };
     pc.addIceCandidate = function (candidate) {
-      var nativeCandidate = new webrtc_winrt_api.RTCIceCandidate(candidate.candidate,
+      var nativeCandidate = new Org.WebRtc.RTCIceCandidate(candidate.candidate,
         (typeof candidate.sdpMid !== 'undefined') ? candidate.sdpMid : '', candidate.sdpMLineIndex);
       return new Promise(function (resolve, reject) {
         pc.nativePC_.addIceCandidate(nativeCandidate).then(function () {
