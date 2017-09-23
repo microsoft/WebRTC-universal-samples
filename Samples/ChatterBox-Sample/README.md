@@ -1,23 +1,29 @@
-<!-- 
+<!--
   category: Communications
   samplefwlink: http://go.microsoft.com/fwlink/p/?LinkId=??????
 -->
 
 # Web Real-Time Communications (WebRTC) Voice over IP (VoIP) sample (aka ChatterBox)
 
-Utilizes the [Microsoft WebRTC for UWP Nuget package](http://www.nuget.org/packages/WebRtc/1.54.0-Alpha) to implement a full featured Voice-Over-IP application for all Windows 10 platforms leveraging the [Windows.ApplicationModel.Calls](https://msdn.microsoft.com/library/windows/apps/windows.applicationmodel.calls.aspx) namespace.  This sample demonstrates the implementation of a UWP client which runs on Desktop, Mobile, Xbox and HoloLens and a signaling server component.  The resulting solution features VoIP audio and video calling, text messaging, user presence (here, away, offline), receiving of calls when the application is suspended, closed or the device is rebooted, and more.  Out of the box, the application allows for two way calls between remote parties over various network topologies and NAT conditions and has been tested on all Windows 10 platforms.  The sample also demonstrates key technologies required to implement a full VoIP solution on Windows 10 such as maintaining a call when the app is backgrounded, efficient rendering from a background process to a foreground application via SwapChainPanel, WASAPI audio rendering, and Windows 10 dialer integration.
+> **Note: This sample is no longer maintained.**  While the sample shows proper use of the VoIP APIs in Windows, we recommend the PeerConnection sample as the best implementation of a WebRTC client on Windows:  https://github.com/Microsoft/WebRTC-universal-samples/tree/master/Samples/PeerCC-Sample This sample remains as a demonstration of Windows VoIP APIs.  For further information on the VoIP APIs please visit: https://github.com/Microsoft/Windows-universal-samples/tree/master/Samples/VoIP
+
+
+> **Full WebRTC for UWP Source & Samples**
+The samples in this repository are a mirror of the full WebRTC UWP source which can be found below.  For the most up to date samples, and the complete source for the WebRTC UWP port, please visit: https://github.com/webrtc-uwp
+
+Utilizes the [Microsoft WebRTC for UWP Nuget package](http://www.nuget.org/packages/WebRtc/) to implement a full featured Voice-Over-IP application for all Windows 10 platforms leveraging the [Windows.ApplicationModel.Calls](https://msdn.microsoft.com/library/windows/apps/windows.applicationmodel.calls.aspx) namespace.  This sample demonstrates the implementation of a UWP client which runs on Desktop, Mobile, Xbox and HoloLens and a signaling server component.  The resulting solution features VoIP audio and video calling, text messaging, user presence (here, away, offline), receiving of calls when the application is suspended, closed or the device is rebooted, and more.  Out of the box, the application allows for two way calls between remote parties over various network topologies and NAT conditions and has been tested on all Windows 10 platforms.  The sample also demonstrates key technologies required to implement a full VoIP solution on Windows 10 such as maintaining a call when the app is backgrounded, efficient rendering from a background process to a foreground application via SwapChainPanel, WASAPI audio rendering, and Windows 10 dialer integration.
 
 > **Note:** This sample is one of many WebRTC for UWP samples and hands on labs.  The source code for the underlying WebRTC for UWP port is available as well and will be made public on GitHub shortly.  In the interim, please contact [jacadd@microsoft.com](mailto:jacadd@microsoft.com) for access.
 
 > **Note:** While this sample is not appropriate for IoT platforms, the underlying WebRTC for UWP Library does work on Windows 10 IoT.  Please contact [jacadd@microsoft.com](mailto:jacadd@microsoft.com) for additional support if you plan to use this library on IoT devices.
 
 
-> **Note:** This sample is part of a large collection of UWP feature samples. 
-> If you are unfamiliar with Git and GitHub, you can download the entire collection as a 
-> [ZIP file](https://github.com/Microsoft/Windows-universal-samples/archive/master.zip), but be 
-> sure to unzip everything to access shared dependencies. For more info on working with the ZIP file, 
-> the samples collection, and GitHub, see [Get the UWP samples from GitHub](https://aka.ms/ovu2uq). 
-> For more samples, see the [Samples portal](https://aka.ms/winsamples) on the Windows Dev Center. 
+> **Note:** This sample is part of a large collection of UWP feature samples.
+> If you are unfamiliar with Git and GitHub, you can download the entire collection as a
+> [ZIP file](https://github.com/Microsoft/Windows-universal-samples/archive/master.zip), but be
+> sure to unzip everything to access shared dependencies. For more info on working with the ZIP file,
+> the samples collection, and GitHub, see [Get the UWP samples from GitHub](https://aka.ms/ovu2uq).
+> For more samples, see the [Samples portal](https://aka.ms/winsamples) on the Windows Dev Center.
 
 In this Sample, the user can initiate an incoming or outgoing call.
 WASAPI has been implemented into the sample to provide audio loopback. It simply connects to localhost.
@@ -39,7 +45,7 @@ This Sample utilizes Windows Mobile Extensions for UWP and will only work on mob
 
 ## Build the sample
 
-1. If you download the samples ZIP, be sure to unzip the entire archive, not just the folder with the sample you want to build. 
+1. If you download the samples ZIP, be sure to unzip the entire archive, not just the folder with the sample you want to build.
 2. Start Microsoft Visual Studio 2015 and select **File** \> **Open** \> **Project/Solution**.
 3. Starting in the folder where you unzipped the samples, go to the Samples subfolder, then the subfolder for this specific sample, then the subfolder for C#. Double-click the Visual Studio 2015 Solution (.sln) file.
 4. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
@@ -48,11 +54,11 @@ This Sample utilizes Windows Mobile Extensions for UWP and will only work on mob
 
 ### Deploying the sample
 
-- Select Build > Deploy Solution. 
+- Select Build > Deploy Solution.
 
 ### Deploying and running the sample
 
-- To debug the sample and then run it, press F5 or select Debug >  Start Debugging. To run the sample without debugging, press Ctrl+F5 or selectDebug > Start Without Debugging. 
+- To debug the sample and then run it, press F5 or select Debug >  Start Debugging. To run the sample without debugging, press Ctrl+F5 or selectDebug > Start Without Debugging.
 
 ## Making a call between two peers
 
@@ -99,17 +105,17 @@ To be able to see the statistics and events in the diagnostic tool for the Chatt
 
 ### Application Insights logging
 Users can switch on the "AppInsight Logging" setting to send metrics & logs to an Application Insights resource in Azure.  To enable this functionality, update `<InstrumentationKey>` in ChatterBox/ApplicationInsights.config file to contain the GUID for your Azure Application Insights instance.
-  
+
 #### The following custom events are logged in Application Insights:
 
  - **CallStarted:** This event is logged when incoming/outgoing calls are started. It contains `Timestamp` and `Connection Type` custom data fields.
  - **CallEnded:** This event is logged when calls are ended. It contain the custom fields `Timestamp` and `Call Duration`.
- - **Network Average Quality:** This event is logged at the end of each call. It captures `Timestamp`, `Minimum Inbound Speed` and `Maximum Outbound Speed` for each call. These are average speeds read from the network adapter. 
+ - **Network Average Quality:** This event is logged at the end of each call. It captures `Timestamp`, `Minimum Inbound Speed` and `Maximum Outbound Speed` for each call. These are average speeds read from the network adapter.
  - **Audio Codec:** This event is logged at the beginning of the call.
  - **Video Codec:** This event is logged at the beginning of the call.
- - **Video Height/Width Downgrade:** This event is logged during the call if the current video resolution (height/width) is changed during the call. 
- - **Application Suspending/Resuming:** This event is logged when the application is suspended or resumed. 
- 
+ - **Video Height/Width Downgrade:** This event is logged during the call if the current video resolution (height/width) is changed during the call.
+ - **Application Suspending/Resuming:** This event is logged when the application is suspended or resumed.
+
 #### The following metrics can be found in the "Metrics Explorer" of the Application Insights resource:
 
  - **Old/New Height/Width:** These metrics are from `Video Height/Width Downgrade` event.
