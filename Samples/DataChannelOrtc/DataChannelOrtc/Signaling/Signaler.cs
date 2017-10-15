@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataChannelOrtc.Signalling
+namespace DataChannelOrtc.Signaling
 {
     abstract class Signaler
     {

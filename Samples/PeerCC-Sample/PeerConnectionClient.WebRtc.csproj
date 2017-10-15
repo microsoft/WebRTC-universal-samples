@@ -106,8 +106,8 @@
     <Compile Include="Model\Peer.cs" />
     <Compile Include="MVVM\BindableBase.cs" />
     <Compile Include="MVVM\DispatcherBindableBase.cs" />
-    <Compile Include="Signalling\Conductor.cs" />
-    <Compile Include="Signalling\Signalling.cs" />
+    <Compile Include="Signaling\Conductor.cs" />
+    <Compile Include="Signaling\Signaling.cs" />
     <Compile Include="Utilities\ActionCommand.cs" />
     <Compile Include="Utilities\AppPerf.cs" />
     <Compile Include="Utilities\BoolToVisConverter.cs" />

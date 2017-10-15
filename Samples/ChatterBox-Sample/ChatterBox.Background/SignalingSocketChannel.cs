@@ -54,7 +54,7 @@ namespace ChatterBox.Background
                 }
                 catch (Exception exception)
                 {
-                    Debug.WriteLine("Failed to connect to signalling server: ex: " + exception.Message);
+                    Debug.WriteLine("Failed to connect to signaling server: ex: " + exception.Message);
                     return new ConnectionStatus
                     {
                         IsConnected = false

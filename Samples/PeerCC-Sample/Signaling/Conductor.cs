@@ -36,7 +36,7 @@ using Org.WebRtc;
 using PeerConnectionClient.Utilities;
 #endif
 
-namespace PeerConnectionClient.Signalling
+namespace PeerConnectionClient.Signaling
 {
     /// <summary>
     /// A singleton conductor for WebRTC session.
@@ -69,13 +69,13 @@ namespace PeerConnectionClient.Signalling
             }
         }
 
-        private readonly Signaller _signaller;
+        private readonly Signaler _signaler;
 
         /// <summary>
-        /// The signaller property.
+        /// The signaler property.
         /// Helps to pass WebRTC session signals between client and server.
         /// </summary>
-        public Signaller Signaller => _signaller;
+        public Signaler Signaler => _signaler;
         
         /// <summary>
         /// Video codec used in WebRTC session.
@@ -448,25 +448,25 @@ namespace PeerConnectionClient.Signalling
 //#else
             //_signalingMode = RTCPeerConnectionSignalingMode.Sdp;
 #endif
-            _signaller = new Signaller();
+            _signaler = new Signaler();
             _media = Media.CreateMedia();
 
-            Signaller.OnDisconnected += Signaller_OnDisconnected;
-            Signaller.OnMessageFromPeer += Signaller_OnMessageFromPeer;
-            Signaller.OnPeerConnected += Signaller_OnPeerConnected;
-            Signaller.OnPeerHangup += Signaller_OnPeerHangup;
-            Signaller.OnPeerDisconnected += Signaller_OnPeerDisconnected;
-            Signaller.OnServerConnectionFailure += Signaller_OnServerConnectionFailure;
-            Signaller.OnSignedIn += Signaller_OnSignedIn;
+            Signaler.OnDisconnected += Signaler_OnDisconnected;
+            Signaler.OnMessageFromPeer += Signaler_OnMessageFromPeer;
+            Signaler.OnPeerConnected += Signaler_OnPeerConnected;
+            Signaler.OnPeerHangup += Signaler_OnPeerHangup;
+            Signaler.OnPeerDisconnected += Signaler_OnPeerDisconnected;
+            Signaler.OnServerConnectionFailure += Signaler_OnServerConnectionFailure;
+            Signaler.OnSignedIn += Signaler_OnSignedIn;
 
             _iceServers = new List<RTCIceServer>();
         }
 
         /// <summary>
-        /// Handler for Signaller's OnPeerHangup event.
+        /// Handler for Signaler's OnPeerHangup event.
         /// </summary>
         /// <param name="peerId">ID of the peer to hung up the call with.</param>
-        void Signaller_OnPeerHangup(int peerId)
+        void Signaler_OnPeerHangup(int peerId)
         {
             if (peerId != _peerId) return;
 
@@ -475,25 +475,25 @@ namespace PeerConnectionClient.Signalling
         }
 
         /// <summary>
-        /// Handler for Signaller's OnSignedIn event.
+        /// Handler for Signaler's OnSignedIn event.
         /// </summary>
-        private void Signaller_OnSignedIn()
+        private void Signaler_OnSignedIn()
         {
         }
 
         /// <summary>
-        /// Handler for Signaller's OnServerConnectionFailure event.
+        /// Handler for Signaler's OnServerConnectionFailure event.
         /// </summary>
-        private void Signaller_OnServerConnectionFailure()
+        private void Signaler_OnServerConnectionFailure()
         {
             Debug.WriteLine("[Error]: Connection to server failed!");
         }
 
         /// <summary>
-        /// Handler for Signaller's OnPeerDisconnected event.
+        /// Handler for Signaler's OnPeerDisconnected event.
         /// </summary>
         /// <param name="peerId">ID of disconnected peer.</param>
-        private void Signaller_OnPeerDisconnected(int peerId)
+        private void Signaler_OnPeerDisconnected(int peerId)
         {
             // is the same peer or peer_id does not exist (0) in case of 500 Error
             if (peerId != _peerId && peerId != 0) return;
@@ -503,20 +503,20 @@ namespace PeerConnectionClient.Signalling
         }
 
         /// <summary>
-        /// Handler for Signaller's OnPeerConnected event.
+        /// Handler for Signaler's OnPeerConnected event.
         /// </summary>
         /// <param name="id">ID of the connected peer.</param>
         /// <param name="name">Name of the connected peer.</param>
-        private void Signaller_OnPeerConnected(int id, string name)
+        private void Signaler_OnPeerConnected(int id, string name)
         {
         }
 
         /// <summary>
-        /// Handler for Signaller's OnMessageFromPeer event.
+        /// Handler for Signaler's OnMessageFromPeer event.
         /// </summary>
         /// <param name="peerId">ID of the peer.</param>
         /// <param name="message">Message from the peer.</param>
-        private void Signaller_OnMessageFromPeer(int peerId, string message)
+        private void Signaler_OnMessageFromPeer(int peerId, string message)
         {
             Task.Run(async () =>
             {
@@ -567,7 +567,7 @@ namespace PeerConnectionClient.Signalling
                             if (!connectResult)
                             {
                                 Debug.WriteLine("[Error] Conductor: Failed to initialize our PeerConnection instance");
-                                await Signaller.SignOut();
+                                await Signaler.SignOut();
                                 return;
                             }
                             else if (_peerId != peerId)
@@ -695,9 +695,9 @@ namespace PeerConnectionClient.Signalling
         }
 
         /// <summary>
-        /// Handler for Signaller's OnDisconnected event handler.
+        /// Handler for Signaler's OnDisconnected event handler.
         /// </summary>
-        private void Signaller_OnDisconnected()
+        private void Signaler_OnDisconnected()
         {
             ClosePeerConnection();
         }
@@ -709,11 +709,11 @@ namespace PeerConnectionClient.Signalling
         /// <param name="port">The port to connect to.</param>
         public void StartLogin(string server, string port)
         {
-            if (_signaller.IsConnected())
+            if (_signaler.IsConnected())
             {
                 return;
             }
-            _signaller.Connect(server, port, GetLocalPeerName());
+            _signaler.Connect(server, port, GetLocalPeerName());
         }
        
         /// <summary>
@@ -721,9 +721,9 @@ namespace PeerConnectionClient.Signalling
         /// </summary>
         public async Task DisconnectFromServer()
         {
-            if (_signaller.IsConnected())
+            if (_signaler.IsConnected())
             {
-                await _signaller.SignOut();
+                await _signaler.SignOut();
             }
         }
 
@@ -856,7 +856,7 @@ namespace PeerConnectionClient.Signalling
         private void SendMessage(IJsonValue json)
         {
             // Don't await, send it async.
-            var task = _signaller.SendToPeer(_peerId, json);
+            var task = _signaler.SendToPeer(_peerId, json);
         }
 
         /// <summary>
@@ -864,7 +864,7 @@ namespace PeerConnectionClient.Signalling
         /// </summary>
         private async Task SendHangupMessage()
         {
-            await _signaller.SendToPeer(_peerId, "BYE");
+            await _signaler.SendToPeer(_peerId, "BYE");
         }
 
         /// <summary>
