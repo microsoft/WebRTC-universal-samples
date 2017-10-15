@@ -19,68 +19,36 @@ using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 
-namespace PeerConnectionClient.Signalling
+namespace DataChannelOrtc.Signaling
 {
-    public delegate void SignedInDelegate();
-    public delegate void DisconnectedDelegate();
-    public delegate void PeerConnectedDelegate(int id, string name);
-    public delegate void PeerDisonnectedDelegate(int peer_id);
-    public delegate void PeerHangupDelegate(int peer_id);
-    public delegate void MessageFromPeerDelegate(int peer_id, string message);
-    public delegate void MessageSentDelegate(int err);
-    public delegate void ServerConnectionFailureDelegate();
-
     /// <summary>
-    /// Signaller instance is used to fire connection events.
+    /// Signaler instance is used to fire connection events.
     /// </summary>
-    class Signaller
+    class TcpSignaler : Signaler
     {
-        // Connection events
-        public event SignedInDelegate OnSignedIn;
-        public event DisconnectedDelegate OnDisconnected;
-        public event PeerConnectedDelegate OnPeerConnected;
-        public event PeerDisonnectedDelegate OnPeerDisconnected;
-        public event PeerHangupDelegate OnPeerHangup;
-        public event MessageFromPeerDelegate OnMessageFromPeer;
-        public event ServerConnectionFailureDelegate OnServerConnectionFailure;
-
-        /// <summary>
-        /// Creates an instance of a Signaller.
-        /// </summary>
-        public Signaller()
-        {
-            _state = State.NOT_CONNECTED;
-            _myId = -1;
-
-            // Annoying but register empty handlers
-            // so we don't have to check for null everywhere
-            OnSignedIn += () => { };
-            OnDisconnected += () => { };
-            OnPeerConnected += (a, b) => { };
-            OnPeerDisconnected += (a) => { };
-            OnMessageFromPeer += (a, b) => { };
-            OnServerConnectionFailure += () => { };
-        }
-
-        /// <summary>
-        /// The connection state.
-        /// </summary>
-        public enum State
-        {
-            NOT_CONNECTED,
-            RESOLVING, // Note: State not used
-            SIGNING_IN,
-            CONNECTED,
-            SIGNING_OUT_WAITING, // Note: State not used
-            SIGNING_OUT,
-        };
         private State _state;
 
         private HostName _server;
         private string _port;
         private string _clientName;
         private int _myId;
+
         private Dictionary<int, string> _peers = new Dictionary<int, string>();
+        private StreamSocket _hangingGetSocket;
+
+        /// <summary>
+        /// Creates an instance of a Signaler.
+        /// </summary>
+        public TcpSignaler(string server, string port, string clientName)
+        {
+            _state = State.NOT_CONNECTED;
+            _myId = -1;
+
+            _server = new HostName(server);
+            _port = port;
+            _clientName = clientName;
+        }
+
 
         /// <summary>
         /// Checks if connected to the server.
@@ -97,22 +65,18 @@ namespace PeerConnectionClient.Signalling
         /// <param name="server">Host name/IP.</param>
         /// <param name="port">Port to connect.</param>
         /// <param name="client_name">Client name.</param>
-        public async void Connect(string server, string port, string client_name)
+        public override async Task Connect()
         {
             try
             {
                 if (_state != State.NOT_CONNECTED)
                 {
-                    OnServerConnectionFailure();
+                    OnConnectionFailed();
                     return;
                 }
 
-                _server = new HostName(server);
-                _port = port;
-                _clientName = client_name;
-
                 _state = State.SIGNING_IN;
-                await ControlSocketRequestAsync(string.Format("GET /sign_in?{0} HTTP/1.0\r\n\r\n", client_name));
+                await ControlSocketRequestAsync(string.Format("GET /sign_in?{0} HTTP/1.0\r\n\r\n", _clientName));
                 if (_state == State.CONNECTED)
                 {
                     // Start the long polling loop without await
@@ -121,7 +85,7 @@ namespace PeerConnectionClient.Signalling
                 else
                 {
                     _state = State.NOT_CONNECTED;
-                    OnServerConnectionFailure();
+                    OnConnectionFailed();
                 }
             }
             catch (Exception ex)
@@ -130,7 +94,94 @@ namespace PeerConnectionClient.Signalling
             }
         }
 
-        private StreamSocket _hangingGetSocket;
+        /// <summary>
+        /// Disconnects the user from the server.
+        /// </summary>
+        /// <returns>True if the user is disconnected from the server.</returns>
+        public async Task<bool> SignOut()
+        {
+            if (_state == State.NOT_CONNECTED || _state == State.SIGNING_OUT)
+                return true;
+
+            if (_hangingGetSocket != null)
+            {
+                _hangingGetSocket.Dispose();
+                _hangingGetSocket = null;
+            }
+
+            _state = State.SIGNING_OUT;
+
+            if (_myId != -1)
+            {
+                await ControlSocketRequestAsync(String.Format("GET /sign_out?peer_id={0} HTTP/1.0\r\n\r\n", _myId));
+            }
+            else
+            {
+                // Can occur if the app is closed before we finish connecting
+                return true;
+            }
+
+            _myId = -1;
+            _state = State.NOT_CONNECTED;
+            return true;
+        }
+
+        /// <summary>
+        /// Resets the states after connection is closed.
+        /// </summary>
+        private void Close()
+        {
+            if (_hangingGetSocket != null)
+            {
+                _hangingGetSocket.Dispose();
+                _hangingGetSocket = null;
+            }
+
+            _peers.Clear();
+            _state = State.NOT_CONNECTED;
+        }
+
+        /// <summary>
+        /// Sends a message to a peer.
+        /// </summary>
+        /// <param name="peerId">ID of the peer to send a message to.</param>
+        /// <param name="message">Message to send.</param>
+        /// <returns>True if the message was sent.</returns>
+        public override async Task<bool> SendToPeer(int peerId, string message)
+        {
+            if (_state != State.CONNECTED)
+            {
+                return false;
+            }
+
+            Debug.Assert(IsConnected());
+
+            if (!IsConnected() || peerId == -1)
+            {
+                return false;
+            }
+
+            string buffer = String.Format(
+                "POST /message?peer_id={0}&to={1} HTTP/1.0\r\n" +
+                "Content-Length: {2}\r\n" +
+                "Content-Type: text/plain\r\n" +
+                "\r\n" +
+                "{3}",
+                _myId, peerId, message.Length, message);
+            return await ControlSocketRequestAsync(buffer);
+        }
+
+        /// <summary>
+        /// Sends a message to a peer.
+        /// </summary>
+        /// <param name="peerId">ID of the peer to send a message to.</param>
+        /// <param name="json">The json message.</param>
+        /// <returns>True if the message is sent.</returns>
+        public async Task<bool> SendToPeer(int peerId, IJsonValue json)
+        {
+            string message = json.Stringify();
+            return await SendToPeer(peerId, message);
+        }
 
         #region Parsing
         /// <summary>
@@ -224,7 +275,7 @@ namespace PeerConnectionClient.Signalling
                     {
                         Debug.WriteLine("Peer most likely gone. Closing peer connection.");
                         //As Peer Id doesn't exist in buffer using 0
-                        OnPeerDisconnected(0);
+                        OnPeerDisconnected(new Signaling.Peer(0, string.Empty));
                         return false;
                     }
                     Close();
@@ -418,11 +469,11 @@ namespace PeerConnectionClient.Signalling
                             if (ParseEntry(buffer.Substring(pos, eol - pos), ref name, ref id, ref connected) && id != _myId)
                             {
                                 _peers[id] = name;
-                                OnPeerConnected(id, name);
+                                OnPeerConnected(new Peer(id, name));
                             }
                             pos = eol + 1;
                         }
-                        OnSignedIn();
+                        OnConnected();
                     }
                 }
                 else if (_state == State.SIGNING_OUT)
@@ -496,12 +547,12 @@ namespace PeerConnectionClient.Signalling
                                 if (connected)
                                 {
                                     _peers[id] = name;
-                                    OnPeerConnected(id, name);
+                                    OnPeerConnected(new Peer(id, name));
                                 }
                                 else
                                 {
                                     _peers.Remove(id);
-                                    OnPeerDisconnected(id);
+                                    OnPeerDisconnected(new Peer(id, string.Empty));
                                 }
                             }
                         }
@@ -510,134 +561,21 @@ namespace PeerConnectionClient.Signalling
                             string message = buffer.Substring(pos);
                             if (message == "BYE")
                             {
-                                OnPeerHangup(peer_id);
+                                OnPeerHangup(new Peer(peer_id, string.Empty));
                             }
                             else
                             {
-                                OnMessageFromPeer(peer_id, message);
+                                OnPeerMessage(new Peer(peer_id, string.Empty, message));
                             }
                         }
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine("[Error] Signaling: Long-polling exception: {0}", e.Message);
+                        // Below is noisy during debugging.
+                        //Debug.WriteLine("[Error] Signaling: Long-polling exception: {0}", e.Message);
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Disconnects the user from the server.
-        /// </summary>
-        /// <returns>True if the user is disconnected from the server.</returns>
-        public async Task<bool> SignOut()
-        {
-            if (_state == State.NOT_CONNECTED || _state == State.SIGNING_OUT)
-                return true;
-
-            if (_hangingGetSocket != null)
-            {
-                _hangingGetSocket.Dispose();
-                _hangingGetSocket = null;
-            }
-
-            _state = State.SIGNING_OUT;
-
-            if (_myId != -1)
-            {
-                await ControlSocketRequestAsync(String.Format("GET /sign_out?peer_id={0} HTTP/1.0\r\n\r\n", _myId));
-            }
-            else
-            {
-                // Can occur if the app is closed before we finish connecting
-                return true;
-            }
-
-            _myId = -1;
-            _state = State.NOT_CONNECTED;
-            return true;
-        }
-
-        /// <summary>
-        /// Resets the states after connection is closed.
-        /// </summary>
-        private void Close()
-        {
-            if (_hangingGetSocket != null)
-            {
-                _hangingGetSocket.Dispose();
-                _hangingGetSocket = null;
-            }
-
-            _peers.Clear();
-            _state = State.NOT_CONNECTED;
-        }
-
-        /// <summary>
-        /// Sends a message to a peer.
-        /// </summary>
-        /// <param name="peerId">ID of the peer to send a message to.</param>
-        /// <param name="message">Message to send.</param>
-        /// <returns>True if the message was sent.</returns>
-        public async Task<bool> SendToPeer(int peerId, string message)
-        {
-            if (_state != State.CONNECTED)
-            {
-                return false;
-            }
-
-            Debug.Assert(IsConnected());
-
-            if (!IsConnected() || peerId == -1)
-            {
-                return false;
-            }
-
-            string buffer = String.Format(
-                "POST /message?peer_id={0}&to={1} HTTP/1.0\r\n" +
-                "Content-Length: {2}\r\n" +
-                "Content-Type: text/plain\r\n" +
-                "\r\n" +
-                "{3}",
-                _myId, peerId, message.Length, message);
-            return await ControlSocketRequestAsync(buffer);
-        }
-
-        /// <summary>
-        /// Sends a message to a peer.
-        /// </summary>
-        /// <param name="peerId">ID of the peer to send a message to.</param>
-        /// <param name="json">The json message.</param>
-        /// <returns>True if the message is sent.</returns>
-        public async Task<bool> SendToPeer(int peerId, IJsonValue json)
-        {
-            string message = json.Stringify();
-            return await SendToPeer(peerId, message);
-        }
-    }
-
-    /// <summary>
-    /// Class providing helper functions for parsing responses and messages.
-    /// </summary>
-    public static class Extensions
-    {
-        public static async void WriteStringAsync(this StreamSocket socket, string str)
-        {
-            try
-            {
-                var writer = new DataWriter(socket.OutputStream);
-                writer.WriteString(str);
-                await writer.StoreAsync();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("[Error] Singnaling: Couldn't write to socket : " + ex.Message);
-            }
-        }
-
-        public static int ParseLeadingInt(this string str)
-        {
-            return int.Parse(Regex.Match(str, "\\d+").Value);
         }
     }
 }

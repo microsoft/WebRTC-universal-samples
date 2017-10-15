@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 
-namespace DataChannelOrtc.Signalling
+namespace DataChannelOrtc.Signaling
 {
     /// <summary>
     /// The connection state.

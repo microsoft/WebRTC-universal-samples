@@ -28,7 +28,7 @@ using Windows.UI.Xaml.Controls;
 using Microsoft.HockeyApp;
 using PeerConnectionClient.Model;
 using PeerConnectionClient.MVVM;
-using PeerConnectionClient.Signalling;
+using PeerConnectionClient.Signaling;
 using PeerConnectionClient.Utilities;
 #if ORTCLIB
 using Org.Ortc;
@@ -297,7 +297,7 @@ namespace PeerConnectionClient.ViewModels
             };
 
             // A Peer is connected to the server event handler
-            Conductor.Instance.Signaller.OnPeerConnected += (peerId, peerName) =>
+            Conductor.Instance.Signaler.OnPeerConnected += (peerId, peerName) =>
             {
                 RunOnUiThread(() =>
                 {
@@ -311,7 +311,7 @@ namespace PeerConnectionClient.ViewModels
             };
 
             // A Peer is disconnected from the server event handler
-            Conductor.Instance.Signaller.OnPeerDisconnected += peerId =>
+            Conductor.Instance.Signaler.OnPeerDisconnected += peerId =>
             {
                 RunOnUiThread(() =>
                 {
@@ -322,7 +322,7 @@ namespace PeerConnectionClient.ViewModels
             };
 
             // The user is Signed in to the server event handler
-            Conductor.Instance.Signaller.OnSignedIn += () =>
+            Conductor.Instance.Signaler.OnSignedIn += () =>
             {
                 RunOnUiThread(() =>
                 {
@@ -334,7 +334,7 @@ namespace PeerConnectionClient.ViewModels
             };
 
             // Failed to connect to the server event handler
-            Conductor.Instance.Signaller.OnServerConnectionFailure += () =>
+            Conductor.Instance.Signaler.OnServerConnectionFailure += () =>
             {
                 RunOnUiThread(async () =>
                 {
@@ -345,7 +345,7 @@ namespace PeerConnectionClient.ViewModels
             };
 
             // The current user is disconnected from the server event handler
-            Conductor.Instance.Signaller.OnDisconnected += () =>
+            Conductor.Instance.Signaler.OnDisconnected += () =>
             {
                 RunOnUiThread(() =>
                 {

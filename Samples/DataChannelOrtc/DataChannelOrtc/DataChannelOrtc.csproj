@@ -98,11 +98,11 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Signalling\Peer.cs" />
+    <Compile Include="Signaling\Peer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Signalling\Signaler.cs" />
-    <Compile Include="Signalling\TcpSignaler.cs" />
-    <Compile Include="Signalling\Util.cs" />
+    <Compile Include="Signaling\Signaler.cs" />
+    <Compile Include="Signaling\TcpSignaler.cs" />
+    <Compile Include="Signaling\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

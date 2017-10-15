@@ -73,7 +73,7 @@ namespace ChatterBox.Background.Signaling
                     return true;
                 }
 
-                // Disconnect our connection with the Signalling Server.
+                // Disconnect our connection with the Signaling Server.
                 // The server will automatically recognize that the client
                 // is not registered anymore, once it missed the next two heartbeats.
                 await _signalingSocketChannel.DisconnectSignalingServerAsync();
