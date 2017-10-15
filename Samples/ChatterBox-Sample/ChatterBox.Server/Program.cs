@@ -19,8 +19,8 @@ namespace ChatterBox.Server
         {
             try
             {
-                var signalingServer = new ChatterBoxServer();
-                signalingServer.Run();
+                var signallingServer = new ChatterBoxServer();
+                signallingServer.Run();
                 Console.ReadLine();
             }
             catch (Exception ex)

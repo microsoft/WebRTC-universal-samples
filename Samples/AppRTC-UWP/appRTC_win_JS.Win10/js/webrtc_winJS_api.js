@@ -395,10 +395,10 @@ if (Org.WebRtc) {
         pc.oniceconnectionstatechange(e.target);
       }
     }
-    pc.nativePC_.ononsignalingstatechange = function (e) {
+    pc.nativePC_.ononsignallingstatechange = function (e) {
       pc.updateProperties();
-      if (pc.onsignalingstatechange !== undefined) {
-        pc.onsignalingstatechange(e); // e has no "target" property
+      if (pc.onsignallingstatechange !== undefined) {
+        pc.onsignallingstatechange(e); // e has no "target" property
       }
     };
     pc.getStats = function () { };
@@ -406,27 +406,27 @@ if (Org.WebRtc) {
       pc.localDescription = this.nativePC_.localDescription;
       pc.remoteDescription = this.nativePC_.remoteDescription;
       pc.iceGatheringState = this.nativePC_.iceGatheringState;
-      switch (this.nativePC_.signalingState) {
+      switch (this.nativePC_.signallingState) {
         case 0:
-          pc.signalingState = 'stable';
+          pc.signallingState = 'stable';
           break;
         case 1:
-          pc.signalingState = 'have-local-offer';
+          pc.signallingState = 'have-local-offer';
           break;
         case 2:
-          pc.signalingState = 'have-local-pranswer';
+          pc.signallingState = 'have-local-pranswer';
           break;
         case 3:
-          pc.signalingState = 'have-remote-offer';
+          pc.signallingState = 'have-remote-offer';
           break;
         case 4:
-          pc.signalingState = 'have-remote-pranswer';
+          pc.signallingState = 'have-remote-pranswer';
           break;
         case 5:
-          pc.signalingState = 'closed';
+          pc.signallingState = 'closed';
           break;
         default:
-          throw 'invalid signaling state';
+          throw 'invalid signalling state';
       }
       switch (this.nativePC_.iceConnectionState) {
         case 0:

@@ -13,7 +13,7 @@ using Windows.Storage;
 
 namespace ChatterBox.Background.Settings
 {
-    public static class SignalingSettings
+    public static class SignallingSettings
     {
         public static bool AppInsightsEnabled
         {
@@ -28,34 +28,34 @@ namespace ChatterBox.Background.Settings
             set { ApplicationData.Current.LocalSettings.Values.AddOrUpdate(nameof(AppInsightsEnabled), value); }
         }
 
-        public static string SignalingServerHost
+        public static string SignallingServerHost
         {
             get
             {
-                if (ApplicationData.Current.LocalSettings.Values.ContainsKey(nameof(SignalingServerHost)))
+                if (ApplicationData.Current.LocalSettings.Values.ContainsKey(nameof(SignallingServerHost)))
                 {
-                    return (string) ApplicationData.Current.LocalSettings.Values[nameof(SignalingServerHost)];
+                    return (string) ApplicationData.Current.LocalSettings.Values[nameof(SignallingServerHost)];
                 }
                 var defaultHost = "localhost";
-                SignalingServerHost = defaultHost;
+                SignallingServerHost = defaultHost;
                 return defaultHost;
             }
-            set { ApplicationData.Current.LocalSettings.Values.AddOrUpdate(nameof(SignalingServerHost), value); }
+            set { ApplicationData.Current.LocalSettings.Values.AddOrUpdate(nameof(SignallingServerHost), value); }
         }
 
-        public static string SignalingServerPort
+        public static string SignallingServerPort
         {
             get
             {
-                if (ApplicationData.Current.LocalSettings.Values.ContainsKey(nameof(SignalingServerPort)))
+                if (ApplicationData.Current.LocalSettings.Values.ContainsKey(nameof(SignallingServerPort)))
                 {
-                    return (string) ApplicationData.Current.LocalSettings.Values[nameof(SignalingServerPort)];
+                    return (string) ApplicationData.Current.LocalSettings.Values[nameof(SignallingServerPort)];
                 }
                 var defaultPort = "50000";
-                SignalingServerPort = defaultPort;
+                SignallingServerPort = defaultPort;
                 return defaultPort;
             }
-            set { ApplicationData.Current.LocalSettings.Values.AddOrUpdate(nameof(SignalingServerPort), value); }
+            set { ApplicationData.Current.LocalSettings.Values.AddOrUpdate(nameof(SignallingServerPort), value); }
         }
     }
 }

@@ -46,7 +46,7 @@ namespace PeerConnectionClient.Signalling
         private static readonly object InstanceLock = new object();
         private static Conductor _instance;
 #if ORTCLIB
-        private RTCPeerConnectionSignalingMode _signalingMode;
+        private RTCPeerConnectionSignallingMode _signallingMode;
 #endif
         /// <summary>
         ///  The single instance of the Conductor class.
@@ -213,7 +213,7 @@ namespace PeerConnectionClient.Signalling
             {
                 BundlePolicy = RTCBundlePolicy.Balanced,
 #if ORTCLIB
-                SignalingMode = _signalingMode,
+                SignallingMode = _signallingMode,
                 GatherOptions = new RTCIceGatherOptions()
                 {
                     IceServers = new List<RTCIceServer>(_iceServers),
@@ -373,7 +373,7 @@ namespace PeerConnectionClient.Signalling
 
             JsonObject json;
 #if ORTCLIB
-            if (RTCPeerConnectionSignalingMode.Json == _signalingMode)
+            if (RTCPeerConnectionSignallingMode.Json == _signallingMode)
             {
                 json = JsonObject.Parse(evt.Candidate.ToJsonString());
             }
@@ -444,9 +444,9 @@ namespace PeerConnectionClient.Signalling
         private Conductor()
         {
 #if ORTCLIB
-            _signalingMode = RTCPeerConnectionSignalingMode.Json;
+            _signallingMode = RTCPeerConnectionSignallingMode.Json;
 //#else
-            //_signalingMode = RTCPeerConnectionSignalingMode.Sdp;
+            //_signallingMode = RTCPeerConnectionSignallingMode.Sdp;
 #endif
             _signaller = new Signaller();
             _media = Media.CreateMedia();
@@ -557,7 +557,7 @@ namespace PeerConnectionClient.Signalling
                             Peer = enumerablePeer.First();
 #if ORTCLIB
                             created = true;
-                            _signalingMode = Helper.SignalingModeForClientName(Peer.Name);
+                            _signallingMode = Helper.SignallingModeForClientName(Peer.Name);
 #endif
                             _connectToPeerCancelationTokenSource = new CancellationTokenSource();
                             _connectToPeerTask = CreatePeerConnection(_connectToPeerCancelationTokenSource.Token);
@@ -612,13 +612,13 @@ namespace PeerConnectionClient.Signalling
                     }
 
 #if ORTCLIB
-                    RTCSessionDescriptionSignalingType messageType = RTCSessionDescriptionSignalingType.SdpOffer;
+                    RTCSessionDescriptionSignallingType messageType = RTCSessionDescriptionSignallingType.SdpOffer;
                     switch (type)
                     {
-                        case "json": messageType = RTCSessionDescriptionSignalingType.Json; break;
-                        case "offer": messageType = RTCSessionDescriptionSignalingType.SdpOffer; break;
-                        case "answer": messageType = RTCSessionDescriptionSignalingType.SdpAnswer; break;
-                        case "pranswer": messageType = RTCSessionDescriptionSignalingType.SdpPranswer; break;
+                        case "json": messageType = RTCSessionDescriptionSignallingType.Json; break;
+                        case "offer": messageType = RTCSessionDescriptionSignallingType.SdpOffer; break;
+                        case "answer": messageType = RTCSessionDescriptionSignallingType.SdpAnswer; break;
+                        case "pranswer": messageType = RTCSessionDescriptionSignallingType.SdpPranswer; break;
                         default: Debug.Assert(false, type); break;
                     }
 #else
@@ -635,8 +635,8 @@ namespace PeerConnectionClient.Signalling
                     await _peerConnection.SetRemoteDescription(new RTCSessionDescription(messageType, sdp));
 
 #if ORTCLIB
-                    if ((messageType == RTCSessionDescriptionSignalingType.SdpOffer) ||
-                        ((created) && (messageType == RTCSessionDescriptionSignalingType.Json)))
+                    if ((messageType == RTCSessionDescriptionSignallingType.SdpOffer) ||
+                        ((created) && (messageType == RTCSessionDescriptionSignallingType.Json)))
 #else
                     if (messageType == RTCSdpType.Offer)
 #endif
@@ -654,7 +654,7 @@ namespace PeerConnectionClient.Signalling
                 {
                     RTCIceCandidate candidate = null;
 #if ORTCLIB
-                    if (RTCPeerConnectionSignalingMode.Json != _signalingMode)
+                    if (RTCPeerConnectionSignallingMode.Json != _signallingMode)
 #endif
                     {
                         var sdpMid = jMessage.ContainsKey(kCandidateSdpMidName)
@@ -742,7 +742,7 @@ namespace PeerConnectionClient.Signalling
                 return;
             }
 #if ORTCLIB
-            _signalingMode = Helper.SignalingModeForClientName(peer.Name);
+            _signallingMode = Helper.SignallingModeForClientName(peer.Name);
 #endif
             _connectToPeerCancelationTokenSource = new System.Threading.CancellationTokenSource();
             _connectToPeerTask = CreatePeerConnection(_connectToPeerCancelationTokenSource.Token);
@@ -803,7 +803,7 @@ namespace PeerConnectionClient.Signalling
             var type = description.Type.ToString().ToLower();
             string formattedDescription = description.FormattedDescription;
 
-            if (description.Type == RTCSessionDescriptionSignalingType.Json)
+            if (description.Type == RTCSessionDescriptionSignallingType.Json)
             {
                 if (IsNullOrEmpty(SessionId))
                 {

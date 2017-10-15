@@ -37,7 +37,7 @@ namespace ChatterBox.Background.AppService
         IAsyncAction OnOutgoingCallRejectedAsync(RelayMessage message);
         IAsyncAction OnRemoteControlSizeAsync(VideoControlSize size);
         IAsyncAction OnRemoteHangupAsync(RelayMessage message);
-        // WebRTC signaling
+        // WebRTC signalling
         IAsyncAction OnSdpAnswerAsync(RelayMessage message);
         IAsyncAction OnSdpOfferAsync(RelayMessage message);
         IAsyncAction RejectAsync(IncomingCallReject reason);

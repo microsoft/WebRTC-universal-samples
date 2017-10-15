@@ -12,7 +12,7 @@
 using System;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using ChatterBox.Background.Signaling.PersistedData;
+using ChatterBox.Background.Signalling.PersistedData;
 using ChatterBox.MVVM;
 
 namespace ChatterBox.ViewModels
@@ -79,9 +79,9 @@ namespace ChatterBox.ViewModels
         public void OnNavigatedTo()
         {
             if (WelcomeViewModel.IsCompleted) WelcomeCompleted();
-            if (SignalingStatus.IsRegistered)
+            if (SignallingStatus.IsRegistered)
             {
-                //_signalingProxy.GetPeerList(new Message());
+                //_signallingProxy.GetPeerList(new Message());
             }
         }
 
@@ -98,7 +98,7 @@ namespace ChatterBox.ViewModels
         private async void RegistrationSettingChanged()
         {
             IsActive = false;
-            await ConnectingViewModel.SwitchSignalingServer();
+            await ConnectingViewModel.SwitchSignallingServer();
         }
 
         private void SettingsViewModelOnClose()

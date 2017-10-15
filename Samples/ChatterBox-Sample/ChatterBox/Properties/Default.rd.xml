@@ -23,7 +23,7 @@
     -->
     <Assembly Name="*Application*" Dynamic="Required All" Serialize="Required All" />
 
-    <Namespace Name="ChatterBox.Background.Signaling.Dto"             Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
+    <Namespace Name="ChatterBox.Background.Signalling.Dto"             Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
     <Namespace Name="ChatterBox.Background.AppService.Dto"            Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
     <Namespace Name="ChatterBox.Background.AppService"                Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
     <Namespace Name="ChatterBox.Communication.Messages.Interfaces"    Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
@@ -33,8 +33,8 @@
     <Namespace Name="ChatterBox.Communication.Contracts"              Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
 
     <Type Name="ChatterBox.Communication.Messages.Relay.RelayMessage" Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />
-    <Type Name="ChatterBox.Background.SignalingSocketService"         Dynamic="All" Browse="All" />
-    <Type Name="ChatterBox.Background.Signaling.SignalingClient"      Dynamic="All" Browse="All" />
+    <Type Name="ChatterBox.Background.SignallingSocketService"         Dynamic="All" Browse="All" />
+    <Type Name="ChatterBox.Background.Signalling.SignallingClient"      Dynamic="All" Browse="All" />
     <Type Name="ChatterBox.Background.ForegroundClient"               Dynamic="All" />
     <Type Name="ChatterBox.Background.Hub"                            Dynamic="Required All" />
     <Type Name="Windows.Graphics.Display.DisplayOrientations"         Dynamic="All" Serialize="All" Browse="All" DataContractJsonSerializer="All" Activate="All" />

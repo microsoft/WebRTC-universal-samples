@@ -19,18 +19,18 @@ using ChatterBox.Communication.Contracts;
 using ChatterBox.Communication.Messages.Registration;
 using System.Threading;
 
-namespace ChatterBox.Background.Signaling
+namespace ChatterBox.Background.Signalling
 {
     public sealed class SocketConnection : ISocketConnection
     {
         private readonly IClientChannel _clientChannel;
-        private readonly ISignalingSocketChannel _signalingSocketChannel;
+        private readonly ISignallingSocketChannel _signallingSocketChannel;
         private static readonly SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
 
-        public SocketConnection(ISignalingSocketChannel signalingSocketChannel, IClientChannel clientChannel)
+        public SocketConnection(ISignallingSocketChannel signallingSocketChannel, IClientChannel clientChannel)
         {
             _clientChannel = clientChannel;
-            _signalingSocketChannel = signalingSocketChannel;
+            _signallingSocketChannel = signallingSocketChannel;
         }
 
         public IAsyncOperation<bool> ConnectAsync()
@@ -43,7 +43,7 @@ namespace ChatterBox.Background.Signaling
                     var isConnected = await GetIsConnectedAsync();
                     if (!isConnected)
                     {
-                        isConnected = (await _signalingSocketChannel.ConnectToSignalingServerAsync(null)).IsConnected;
+                        isConnected = (await _signallingSocketChannel.ConnectToSignallingServerAsync(null)).IsConnected;
                         if (isConnected)
                         {
                             await RegisterAsync();
@@ -76,7 +76,7 @@ namespace ChatterBox.Background.Signaling
                 // Disconnect our connection with the Signalling Server.
                 // The server will automatically recognize that the client
                 // is not registered anymore, once it missed the next two heartbeats.
-                await _signalingSocketChannel.DisconnectSignalingServerAsync();
+                await _signallingSocketChannel.DisconnectSignallingServerAsync();
 
                 return true;
             }).AsAsyncOperation();
@@ -86,7 +86,7 @@ namespace ChatterBox.Background.Signaling
         {
             return Task.Run(async () =>
             {
-                var connectionStatus = await _signalingSocketChannel.GetConnectionStatusAsync();
+                var connectionStatus = await _signallingSocketChannel.GetConnectionStatusAsync();
                 return connectionStatus != null && connectionStatus.IsConnected;
             }).AsAsyncOperation();
         }

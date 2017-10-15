@@ -14,7 +14,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Networking.PushNotifications;
 using ChatterBox.Background.Avatars;
 using ChatterBox.Background.Notifications;
-using ChatterBox.Background.Signaling.PersistedData;
+using ChatterBox.Background.Signalling.PersistedData;
 using ChatterBox.Communication.Messages.Relay;
 using Newtonsoft.Json;
 

@@ -24,7 +24,7 @@ function setupLoopback(wssUrl, roomId) {
     loopbackWebSocket.close();
   }
   trace('Setting up loopback WebSocket.');
-  // TODO(tkchin): merge duplicate code once SignalingChannel abstraction
+  // TODO(tkchin): merge duplicate code once SignallingChannel abstraction
   // exists.
   loopbackWebSocket = new WebSocket(wssUrl);
 

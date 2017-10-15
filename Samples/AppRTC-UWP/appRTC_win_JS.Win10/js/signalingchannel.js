@@ -9,12 +9,12 @@
 /* More information about these options at jshint.com/docs/options */
 
 /* globals parseJSON, trace, sendUrlRequest, isChromeApp, RemoteWebSocket */
-/* exported SignalingChannel */
+/* exported SignallingChannel */
 
 'use strict';
 
-// This class implements a signaling channel based on WebSocket.
-var SignalingChannel = function(wssUrl, wssPostUrl) {
+// This class implements a signalling channel based on WebSocket.
+var SignallingChannel = function(wssUrl, wssPostUrl) {
   this.wssUrl_ = wssUrl;
   this.wssPostUrl_ = wssPostUrl;
   this.roomId_ = null;
@@ -27,13 +27,13 @@ var SignalingChannel = function(wssUrl, wssPostUrl) {
   this.onmessage = null;
 };
 
-SignalingChannel.prototype.open = function() {
+SignallingChannel.prototype.open = function() {
   if (this.websocket_) {
-    trace('ERROR: SignalingChannel has already opened.');
+    trace('ERROR: SignallingChannel has already opened.');
     return;
   }
 
-  trace('Opening signaling channel.');
+  trace('Opening signalling channel.');
   return new Promise(function(resolve, reject) {
     if (isChromeApp()) {
       this.websocket_ = new RemoteWebSocket(this.wssUrl_, this.wssPostUrl_);
@@ -42,10 +42,10 @@ SignalingChannel.prototype.open = function() {
     }
 
     this.websocket_.onopen = function() {
-      trace('Signaling channel opened.');
+      trace('Signalling channel opened.');
 
       this.websocket_.onerror = function() {
-        trace('Signaling channel error.');
+        trace('Signalling channel error.');
       };
       this.websocket_.onclose = function(event) {
         // TODO(tkchin): reconnect to WSS.
@@ -71,7 +71,7 @@ SignalingChannel.prototype.open = function() {
         return;
       }
       if (message.error) {
-        trace('Signaling server error message: ' + message.error);
+        trace('Signalling server error message: ' + message.error);
         return;
       }
       this.onmessage(message.msg);
@@ -83,9 +83,9 @@ SignalingChannel.prototype.open = function() {
   }.bind(this));
 };
 
-SignalingChannel.prototype.register = function(roomId, clientId) {
+SignallingChannel.prototype.register = function(roomId, clientId) {
   if (this.registered_) {
-    trace('ERROR: SignalingChannel has already registered.');
+    trace('ERROR: SignallingChannel has already registered.');
     return;
   }
 
@@ -102,7 +102,7 @@ SignalingChannel.prototype.register = function(roomId, clientId) {
     trace('WebSocket not open yet; saving the IDs to register later.');
     return;
   }
-  trace('Registering signaling channel.');
+  trace('Registering signalling channel.');
   var registerMessage = {
     cmd: 'register',
     roomid: this.roomId_,
@@ -113,10 +113,10 @@ SignalingChannel.prototype.register = function(roomId, clientId) {
 
   // TODO(tkchin): Better notion of whether registration succeeded. Basically
   // check that we don't get an error message back from the socket.
-  trace('Signaling channel registered.');
+  trace('Signalling channel registered.');
 };
 
-SignalingChannel.prototype.close = function(async) {
+SignallingChannel.prototype.close = function(async) {
   if (this.websocket_) {
     this.websocket_.close();
     this.websocket_ = null;
@@ -137,9 +137,9 @@ SignalingChannel.prototype.close = function(async) {
   }.bind(this));
 };
 
-SignalingChannel.prototype.send = function(message) {
+SignallingChannel.prototype.send = function(message) {
   if (!this.roomId_ || !this.clientId_) {
-    trace('ERROR: SignalingChannel has not registered.');
+    trace('ERROR: SignallingChannel has not registered.');
     return;
   }
   trace('C->WSS: ' + message);
@@ -160,6 +160,6 @@ SignalingChannel.prototype.send = function(message) {
   }
 };
 
-SignalingChannel.prototype.getWssPostUrl = function() {
+SignallingChannel.prototype.getWssPostUrl = function() {
   return this.wssPostUrl_ + '/' + this.roomId_ + '/' + this.clientId_;
 };

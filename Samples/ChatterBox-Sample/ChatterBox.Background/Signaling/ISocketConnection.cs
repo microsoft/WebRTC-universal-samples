@@ -11,7 +11,7 @@
 
 using Windows.Foundation;
 
-namespace ChatterBox.Background.Signaling
+namespace ChatterBox.Background.Signalling
 {
     public interface ISocketConnection
     {

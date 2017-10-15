@@ -524,7 +524,7 @@ AppController.prototype.createCall_ = function () {
   this.call_.onremotesdpset = this.onRemoteSdpSet_.bind(this);
   this.call_.onremotestreamadded = this.onRemoteStreamAdded_.bind(this);
   this.call_.onlocalstreamadded = this.onLocalStreamAdded_.bind(this);
-  this.call_.onsignalingstatechange = this.infoBox_.updateInfoDiv.bind(this.infoBox_);
+  this.call_.onsignallingstatechange = this.infoBox_.updateInfoDiv.bind(this.infoBox_);
   this.call_.oniceconnectionstatechange = this.infoBox_.updateInfoDiv.bind(this.infoBox_);
   this.call_.onnewicecandidate = this.infoBox_.recordIceCandidateTypes.bind(this.infoBox_);
   this.call_.onerror = this.displayError_.bind(this);
@@ -809,8 +809,8 @@ AppController.IconSet_.prototype.toggle = function () {
 var Call = function (params) {
   this.params_ = params;
   this.roomServer_ = params.roomServer || "";
-  this.channel_ = new SignalingChannel(params.wssUrl, params.wssPostUrl);
-  this.channel_.onmessage = this.onRecvSignalingChannelMessage_.bind(this);
+  this.channel_ = new SignallingChannel(params.wssUrl, params.wssPostUrl);
+  this.channel_.onmessage = this.onRecvSignallingChannelMessage_.bind(this);
   this.pcClient_ = null;
   this.localStream_ = null;
   this.startTime = null;
@@ -822,7 +822,7 @@ var Call = function (params) {
   this.onremotehangup = null;
   this.onremotesdpset = null;
   this.onremotestreamadded = null;
-  this.onsignalingstatechange = null;
+  this.onsignallingstatechange = null;
   this.onstatusmessage = null;
   this.getMediaPromise_ = null;
   this.getTurnServersPromise_ = null;
@@ -896,7 +896,7 @@ Call.prototype.hangup = function (async) {
   steps.push({
     step: function () {
       return this.channel_.close(async);
-    }.bind(this), errorString: "Error closing signaling channel:"
+    }.bind(this), errorString: "Error closing signalling channel:"
   });
   steps.push({
     step: function () {
@@ -943,7 +943,7 @@ Call.prototype.onRemoteHangup = function () {
     this.pcClient_.close();
     this.pcClient_ = null;
   }
-  this.startSignaling_();
+  this.startSignalling_();
 };
 Call.prototype.getPeerConnectionStates = function () {
   if (!this.pcClient_) {
@@ -1000,12 +1000,12 @@ Call.prototype.connectToRoom_ = function (roomId) {
   Promise.all([channelPromise, joinPromise]).then(function () {
     this.channel_.register(this.params_.roomId, this.params_.clientId);
     Promise.all([this.getTurnServersPromise_, this.getMediaPromise_]).then(function () {
-      this.startSignaling_();
+      this.startSignalling_();
       if (isChromeApp()) {
         this.queueCleanupMessages_();
       }
     }.bind(this)).catch(function (error) {
-      this.onError_("Failed to start signaling: " + error.message);
+      this.onError_("Failed to start signalling: " + error.message);
     }.bind(this));
   }.bind(this)).catch(function (error) {
     this.onError_("WebSocket register error: " + error.message);
@@ -1066,11 +1066,11 @@ Call.prototype.maybeCreatePcClient_ = function () {
   try {
     this.pcClient_ = new PeerConnectionClient(this.params_, this.startTime);
     console.log("create faile");
-    this.pcClient_.onsignalingmessage = this.sendSignalingMessage_.bind(this);
+    this.pcClient_.onsignallingmessage = this.sendSignallingMessage_.bind(this);
     this.pcClient_.onremotehangup = this.onremotehangup;
     this.pcClient_.onremotesdpset = this.onremotesdpset;
     this.pcClient_.onremotestreamadded = this.onremotestreamadded;
-    this.pcClient_.onsignalingstatechange = this.onsignalingstatechange;
+    this.pcClient_.onsignallingstatechange = this.onsignallingstatechange;
     this.pcClient_.oniceconnectionstatechange = this.oniceconnectionstatechange;
     this.pcClient_.onnewicecandidate = this.onnewicecandidate;
     this.pcClient_.onerror = this.onerror;
@@ -1081,8 +1081,8 @@ Call.prototype.maybeCreatePcClient_ = function () {
     return;
   }
 };
-Call.prototype.startSignaling_ = function () {
-  trace("Starting signaling.");
+Call.prototype.startSignalling_ = function () {
+  trace("Starting signalling.");
   if (this.isInitiator() && this.oncallerstarted) {
     this.oncallerstarted(this.params_.roomId, this.params_.roomLink);
   }
@@ -1122,11 +1122,11 @@ Call.prototype.joinRoom_ = function () {
     }.bind(this));
   }.bind(this));
 };
-Call.prototype.onRecvSignalingChannelMessage_ = function (msg) {
+Call.prototype.onRecvSignallingChannelMessage_ = function (msg) {
   this.maybeCreatePcClient_();
-  this.pcClient_.receiveSignalingMessage(msg);
+  this.pcClient_.receiveSignallingMessage(msg);
 };
-Call.prototype.sendSignalingMessage_ = function (message) {
+Call.prototype.sendSignallingMessage_ = function (message) {
   var msgString = JSON.stringify(message);
   if (this.params_.isInitiator) {
     var path = this.roomServer_ + "/message/" + this.params_.roomId + "/" + this.params_.clientId + window.location.search;
@@ -1204,7 +1204,7 @@ InfoBox.prototype.updateInfoDiv = function () {
       return;
     }
     contents += this.buildLine_("States");
-    contents += this.buildLine_("Signaling", states.signalingState);
+    contents += this.buildLine_("Signalling", states.signallingState);
     contents += this.buildLine_("Gathering", states.iceGatheringState);
     contents += this.buildLine_("Connection", states.iceConnectionState);
     for (var endpoint in this.iceCandidateTypes_) {
@@ -1387,7 +1387,7 @@ var PeerConnectionClient = function (params, startTime) {
   this.pc_.onicecandidate = this.onIceCandidate_.bind(this);
   this.pc_.onaddstream = this.onRemoteStreamAdded_.bind(this);
   this.pc_.onremovestream = trace.bind(null, "Remote stream removed.");
-  this.pc_.onsignalingstatechange = this.onSignalingStateChanged_.bind(this);
+  this.pc_.onsignallingstatechange = this.onSignallingStateChanged_.bind(this);
   this.pc_.oniceconnectionstatechange = this.onIceConnectionStateChanged_.bind(this);
   this.hasRemoteSdp_ = false;
   this.messageQueue_ = [];
@@ -1399,8 +1399,8 @@ var PeerConnectionClient = function (params, startTime) {
   this.onremotehangup = null;
   this.onremotesdpset = null;
   this.onremotestreamadded = null;
-  this.onsignalingmessage = null;
-  this.onsignalingstatechange = null;
+  this.onsignallingmessage = null;
+  this.onsignallingstatechange = null;
 };
 PeerConnectionClient.DEFAULT_SDP_CONSTRAINTS_ = { "mandatory": { "OfferToReceiveAudio": true, "OfferToReceiveVideo": true }, "optional": [{ "VoiceActivityDetection": false }] };
 PeerConnectionClient.prototype.addStream = function (stream) {
@@ -1435,7 +1435,7 @@ PeerConnectionClient.prototype.startAsCallee = function (initialMessages) {
   this.started_ = true;
   if (initialMessages && initialMessages.length > 0) {
     for (var i = 0, len = initialMessages.length; i < len; i++) {
-      this.receiveSignalingMessage(initialMessages[i]);
+      this.receiveSignallingMessage(initialMessages[i]);
     }
     return true;
   }
@@ -1444,7 +1444,7 @@ PeerConnectionClient.prototype.startAsCallee = function (initialMessages) {
   }
   return true;
 };
-PeerConnectionClient.prototype.receiveSignalingMessage = function (message) {
+PeerConnectionClient.prototype.receiveSignallingMessage = function (message) {
   var messageObj = parseJSON(message);
   if (!messageObj) {
     return;
@@ -1476,7 +1476,7 @@ PeerConnectionClient.prototype.getPeerConnectionStates = function () {
   if (!this.pc_) {
     return null;
   }
-  return { "signalingState": this.pc_.signalingState, "iceGatheringState": this.pc_.iceGatheringState, "iceConnectionState": this.pc_.iceConnectionState };
+  return { "signallingState": this.pc_.signallingState, "iceGatheringState": this.pc_.iceGatheringState, "iceConnectionState": this.pc_.iceConnectionState };
 };
 PeerConnectionClient.prototype.getPeerConnectionStats = function (callback) {
   if (!this.pc_) {
@@ -1500,8 +1500,8 @@ PeerConnectionClient.prototype.setLocalSdpAndNotify_ = function (sessionDescript
   sessionDescription.sdp = maybeSetAudioReceiveBitRate(sessionDescription.sdp, this.params_);
   sessionDescription.sdp = maybeSetVideoReceiveBitRate(sessionDescription.sdp, this.params_);
   this.pc_.setLocalDescription(sessionDescription).then(trace.bind(null, "Set session description success.")).catch(this.onError_.bind(this, "setLocalDescription"));
-  if (this.onsignalingmessage) {
-    this.onsignalingmessage({ sdp: sessionDescription.sdp, type: sessionDescription.type });
+  if (this.onsignallingmessage) {
+    this.onsignallingmessage({ sdp: sessionDescription.sdp, type: sessionDescription.type });
   }
 };
 PeerConnectionClient.prototype.setRemoteSdp_ = function (message) {
@@ -1520,18 +1520,18 @@ PeerConnectionClient.prototype.onSetRemoteDescriptionSuccess_ = function () {
     this.onremotesdpset(remoteStreams.length > 0 && remoteStreams[0].getVideoTracks().length > 0);
   }
 };
-PeerConnectionClient.prototype.processSignalingMessage_ = function (message) {
+PeerConnectionClient.prototype.processSignallingMessage_ = function (message) {
   if (message.type === "offer" && !this.isInitiator_) {
-    if (this.pc_.signalingState !== "stable") {
-      trace("ERROR: remote offer received in unexpected state: " + this.pc_.signalingState);
+    if (this.pc_.signallingState !== "stable") {
+      trace("ERROR: remote offer received in unexpected state: " + this.pc_.signallingState);
       return;
     }
     this.setRemoteSdp_(message);
     this.doAnswer_();
   } else {
     if (message.type === "answer" && this.isInitiator_) {
-      if (this.pc_.signalingState !== "have-local-offer") {
-        trace("ERROR: remote answer received in unexpected state: " + this.pc_.signalingState);
+      if (this.pc_.signallingState !== "have-local-offer") {
+        trace("ERROR: remote answer received in unexpected state: " + this.pc_.signallingState);
         return;
       }
       this.setRemoteSdp_(message);
@@ -1551,7 +1551,7 @@ PeerConnectionClient.prototype.drainMessageQueue_ = function () {
     return;
   }
   for (var i = 0, len = this.messageQueue_.length; i < len; i++) {
-    this.processSignalingMessage_(this.messageQueue_[i]);
+    this.processSignallingMessage_(this.messageQueue_[i]);
   }
   this.messageQueue_ = [];
 };
@@ -1559,8 +1559,8 @@ PeerConnectionClient.prototype.onIceCandidate_ = function (event) {
   if (event.candidate) {
     if (this.filterIceCandidate_(event.candidate)) {
       var message = { type: "candidate", label: event.candidate.sdpMLineIndex, id: event.candidate.sdpMid, candidate: event.candidate.candidate };
-      if (this.onsignalingmessage) {
-        this.onsignalingmessage(message);
+      if (this.onsignallingmessage) {
+        this.onsignallingmessage(message);
       }
       this.recordIceCandidate_("Local", event.candidate);
     }
@@ -1568,13 +1568,13 @@ PeerConnectionClient.prototype.onIceCandidate_ = function (event) {
     trace("End of candidates.");
   }
 };
-PeerConnectionClient.prototype.onSignalingStateChanged_ = function () {
+PeerConnectionClient.prototype.onSignallingStateChanged_ = function () {
   if (!this.pc_) {
     return;
   }
-  trace("Signaling state changed to: " + this.pc_.signalingState);
-  if (this.onsignalingstatechange) {
-    this.onsignalingstatechange();
+  trace("Signalling state changed to: " + this.pc_.signallingState);
+  if (this.onsignallingstatechange) {
+    this.onsignallingstatechange();
   }
 };
 PeerConnectionClient.prototype.onIceConnectionStateChanged_ = function () {
@@ -2085,7 +2085,7 @@ function setDefaultCodec(mLine, payload) {
   }
   return newLine.join(" ");
 }
-; var SignalingChannel = function (wssUrl, wssPostUrl) {
+; var SignallingChannel = function (wssUrl, wssPostUrl) {
   this.wssUrl_ = wssUrl;
   this.wssPostUrl_ = wssPostUrl;
   this.roomId_ = null;
@@ -2095,12 +2095,12 @@ function setDefaultCodec(mLine, payload) {
   this.onerror = null;
   this.onmessage = null;
 };
-SignalingChannel.prototype.open = function () {
+SignallingChannel.prototype.open = function () {
   if (this.websocket_) {
-    trace("ERROR: SignalingChannel has already opened.");
+    trace("ERROR: SignallingChannel has already opened.");
     return;
   }
-  trace("Opening signaling channel.");
+  trace("Opening signalling channel.");
   return new Promise(function (resolve, reject) {
     if (isChromeApp()) {
       this.websocket_ = new RemoteWebSocket(this.wssUrl_, this.wssPostUrl_);
@@ -2108,9 +2108,9 @@ SignalingChannel.prototype.open = function () {
       this.websocket_ = new WebSocket(this.wssUrl_);
     }
     this.websocket_.onopen = function () {
-      trace("Signaling channel opened.");
+      trace("Signalling channel opened.");
       this.websocket_.onerror = function () {
-        trace("Signaling channel error.");
+        trace("Signalling channel error.");
       };
       this.websocket_.onclose = function (event) {
         trace("Channel closed with code:" + event.code + " reason:" + event.reason);
@@ -2130,7 +2130,7 @@ SignalingChannel.prototype.open = function () {
         return;
       }
       if (message.error) {
-        trace("Signaling server error message: " + message.error);
+        trace("Signalling server error message: " + message.error);
         return;
       }
       this.onmessage(message.msg);
@@ -2140,9 +2140,9 @@ SignalingChannel.prototype.open = function () {
     };
   }.bind(this));
 };
-SignalingChannel.prototype.register = function (roomId, clientId) {
+SignallingChannel.prototype.register = function (roomId, clientId) {
   if (this.registered_) {
-    trace("ERROR: SignalingChannel has already registered.");
+    trace("ERROR: SignallingChannel has already registered.");
     return;
   }
   this.roomId_ = roomId;
@@ -2157,13 +2157,13 @@ SignalingChannel.prototype.register = function (roomId, clientId) {
     trace("WebSocket not open yet; saving the IDs to register later.");
     return;
   }
-  trace("Registering signaling channel.");
+  trace("Registering signalling channel.");
   var registerMessage = { cmd: "register", roomid: this.roomId_, clientid: this.clientId_ };
   this.websocket_.send(JSON.stringify(registerMessage));
   this.registered_ = true;
-  trace("Signaling channel registered.");
+  trace("Signalling channel registered.");
 };
-SignalingChannel.prototype.close = function (async) {
+SignallingChannel.prototype.close = function (async) {
   if (this.websocket_) {
     this.websocket_.close();
     this.websocket_ = null;
@@ -2180,9 +2180,9 @@ SignalingChannel.prototype.close = function (async) {
     this.registered_ = false;
   }.bind(this));
 };
-SignalingChannel.prototype.send = function (message) {
+SignallingChannel.prototype.send = function (message) {
   if (!this.roomId_ || !this.clientId_) {
-    trace("ERROR: SignalingChannel has not registered.");
+    trace("ERROR: SignallingChannel has not registered.");
     return;
   }
   trace("C->WSS: " + message);
@@ -2197,7 +2197,7 @@ SignalingChannel.prototype.send = function (message) {
     xhr.send(wssMessage.msg);
   }
 };
-SignalingChannel.prototype.getWssPostUrl = function () {
+SignallingChannel.prototype.getWssPostUrl = function () {
   return this.wssPostUrl_ + "/" + this.roomId_ + "/" + this.clientId_;
 };
 function extractStatAsInt(stats, statObj, statName) {

@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using ChatterBox.Background.AppService;
 using ChatterBox.Background.AppService.Dto;
 using ChatterBox.Background.Avatars;
-using ChatterBox.Background.Signaling.PersistedData;
+using ChatterBox.Background.Signalling.PersistedData;
 using ChatterBox.MVVM;
 using ChatterBox.Services;
 

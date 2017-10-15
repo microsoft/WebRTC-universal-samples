@@ -20,7 +20,7 @@ using Windows.Storage.Streams;
 using ChatterBox.Background.AppService;
 using ChatterBox.Background.Avatars;
 using ChatterBox.Background.Notifications;
-using ChatterBox.Background.Signaling.PersistedData;
+using ChatterBox.Background.Signalling.PersistedData;
 using ChatterBox.Communication.Contracts;
 using ChatterBox.Communication.Helpers;
 using ChatterBox.Communication.Messages.Peers;
@@ -28,19 +28,19 @@ using ChatterBox.Communication.Messages.Registration;
 using ChatterBox.Communication.Messages.Relay;
 using ChatterBox.Communication.Messages.Standard;
 
-namespace ChatterBox.Background.Signaling
+namespace ChatterBox.Background.Signalling
 {
-    public sealed class SignalingClient : IClientChannel, IServerChannel
+    public sealed class SignallingClient : IClientChannel, IServerChannel
     {
         private readonly ICallChannel _callChannel;
         private readonly IForegroundChannel _foregroundChannel;
-        private readonly ISignalingSocketService _signalingSocketService;
+        private readonly ISignallingSocketService _signallingSocketService;
 
-        public SignalingClient(ISignalingSocketService signalingSocketService,
+        public SignallingClient(ISignallingSocketService signallingSocketService,
             IForegroundChannel foregroundChannel,
             ICallChannel callChannel)
         {
-            _signalingSocketService = signalingSocketService;
+            _signallingSocketService = signallingSocketService;
             _callChannel = callChannel;
             _foregroundChannel = foregroundChannel;
             ServerChannelInvoker = new ChannelInvoker(this);
@@ -124,8 +124,8 @@ namespace ChatterBox.Background.Signaling
             return Task.Run(async () =>
             {
                 await ClientConfirmationAsync(Confirmation.For(reply));
-                SignalingStatus.IsRegistered = true;
-                SignalingStatus.Avatar = reply.Avatar;
+                SignallingStatus.IsRegistered = true;
+                SignallingStatus.Avatar = reply.Avatar;
                 await GetPeerListAsync(new Message());
                 _foregroundChannel?.OnSignaledRegistrationStatusUpdatedAsync();
             }).AsAsyncAction();
@@ -140,7 +140,7 @@ namespace ChatterBox.Background.Signaling
         {
             return Task.Run(async () =>
             {
-                SignalingStatus.IsRegistered = false;
+                SignallingStatus.IsRegistered = false;
                 await _foregroundChannel.OnSignaledRegistrationStatusUpdatedAsync();
             }).AsAsyncAction();
         }
@@ -281,7 +281,7 @@ namespace ChatterBox.Background.Signaling
         {
             var message = ClientChannelWriteHelper.FormatOutput(arg, method);
 
-            using (var socketOperation = _signalingSocketService.SocketOperation)
+            using (var socketOperation = _signallingSocketService.SocketOperation)
             {
                 var socket = socketOperation.Socket;
                 if (socket != null)

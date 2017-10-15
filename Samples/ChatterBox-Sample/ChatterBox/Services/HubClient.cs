@@ -34,7 +34,7 @@ namespace ChatterBox.Services
 {
     public class HubClient : DispatcherBindableBase,
         IForegroundUpdateService,
-        ISignalingSocketChannel,
+        ISignallingSocketChannel,
         IClientChannel,
         ICallChannel,
         IForegroundChannel,
@@ -380,22 +380,22 @@ namespace ChatterBox.Services
         }
 
 
-        public IAsyncOperation<ConnectionStatus> ConnectToSignalingServerAsync(ConnectionOwner connectionOwner)
+        public IAsyncOperation<ConnectionStatus> ConnectToSignallingServerAsync(ConnectionOwner connectionOwner)
         {
-            return InvokeHubChannelAsync<ISignalingSocketChannel, ConnectionStatus>(new ConnectionOwner
+            return InvokeHubChannelAsync<ISignallingSocketChannel, ConnectionStatus>(new ConnectionOwner
             {
-                OwnerId = _taskHelper.GetTask(nameof(SignalingTask)).TaskId.ToString()
+                OwnerId = _taskHelper.GetTask(nameof(SignallingTask)).TaskId.ToString()
             });
         }
 
-        public IAsyncAction DisconnectSignalingServerAsync()
+        public IAsyncAction DisconnectSignallingServerAsync()
         {
-            return InvokeHubChannelAsync<ISignalingSocketChannel>().AsTask().AsAsyncAction();
+            return InvokeHubChannelAsync<ISignallingSocketChannel>().AsTask().AsAsyncAction();
         }
 
         public IAsyncOperation<ConnectionStatus> GetConnectionStatusAsync()
         {
-            return InvokeHubChannelAsync<ISignalingSocketChannel, ConnectionStatus>();
+            return InvokeHubChannelAsync<ISignallingSocketChannel, ConnectionStatus>();
         }
 
 

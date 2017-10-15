@@ -20,7 +20,7 @@ using ChatterBox.Background.AppService.Dto;
 using ChatterBox.Background.Call;
 using ChatterBox.Background.Helpers;
 using ChatterBox.Background.Settings;
-using ChatterBox.Background.Signaling;
+using ChatterBox.Background.Signalling;
 using ChatterBox.Background.Tasks;
 using ChatterBox.Communication.Contracts;
 using ChatterBox.Communication.Messages.Relay;
@@ -41,7 +41,7 @@ namespace ChatterBox.Background
         private MediaSettingsChannel _mediaSettingsChannel;
 
 
-        private SignalingClient _signalingClient;
+        private SignallingClient _signallingClient;
 
         private Hub()
         {
@@ -107,12 +107,12 @@ namespace ChatterBox.Background
 
         public StatsManager RtcStatsManager { get; } = new StatsManager();
 
-        public SignalingClient SignalingClient
+        public SignallingClient SignallingClient
             =>
-                _signalingClient ??
-                (_signalingClient = new SignalingClient(SignalingSocketChannel, ForegroundClient, CallChannel));
+                _signallingClient ??
+                (_signallingClient = new SignallingClient(SignallingSocketChannel, ForegroundClient, CallChannel));
 
-        public SignalingSocketChannel SignalingSocketChannel { get; } = new SignalingSocketChannel();
+        public SignallingSocketChannel SignallingSocketChannel { get; } = new SignallingSocketChannel();
 
         public VoipTask VoipTaskInstance { get; set; }
 
@@ -125,10 +125,10 @@ namespace ChatterBox.Background
 
         public bool IsAppInsightsEnabled
         {
-            get { return SignalingSettings.AppInsightsEnabled; }
+            get { return SignallingSettings.AppInsightsEnabled; }
             set
             {
-                SignalingSettings.AppInsightsEnabled = value;
+                SignallingSettings.AppInsightsEnabled = value;
                 RtcStatsManager.DisableTelemetry(!value);
             }
         }
@@ -155,7 +155,7 @@ namespace ChatterBox.Background
 
         public async Task Relay(RelayMessage message)
         {
-            await SignalingClient.RelayAsync(message);
+            await SignallingClient.RelayAsync(message);
         }
 
         public void StartStatsManagerCallWatch()
@@ -201,13 +201,13 @@ namespace ChatterBox.Background
                 var message = args.Request.Message.Single().Value.ToString();
 
                 //Invoke the requested method on the handler based on the channel type
-                if (channel == nameof(ISignalingSocketChannel))
+                if (channel == nameof(ISignallingSocketChannel))
                 {
-                    AppServiceChannelHelper.HandleRequest(args.Request, SignalingSocketChannel, message);
+                    AppServiceChannelHelper.HandleRequest(args.Request, SignallingSocketChannel, message);
                 }
                 if (channel == nameof(IClientChannel))
                 {
-                    AppServiceChannelHelper.HandleRequest(args.Request, SignalingClient, message);
+                    AppServiceChannelHelper.HandleRequest(args.Request, SignallingClient, message);
                 }
 
                 if (channel == nameof(ICallChannel))

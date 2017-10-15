@@ -12,26 +12,26 @@
 using System.Diagnostics;
 using System.Threading;
 using Windows.Networking.Sockets;
-using ChatterBox.Background.Signaling;
+using ChatterBox.Background.Signalling;
 
 namespace ChatterBox.Background
 {
-    public sealed class SignalingSocketOperation : ISignalingSocketOperation
+    public sealed class SignallingSocketOperation : ISignallingSocketOperation
     {
         private static readonly SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         private StreamSocket _socket;
 
-        internal SignalingSocketOperation()
+        internal SignallingSocketOperation()
         {
             SemaphoreSlim.Wait();
         }
 
-        public static string SignalingSocketId { get; } = nameof(SignalingSocketId);
+        public static string SignallingSocketId { get; } = nameof(SignallingSocketId);
 
 
         public void Dispose()
         {
-            _socket?.TransferOwnership(SignalingSocketId);
+            _socket?.TransferOwnership(SignallingSocketId);
             SemaphoreSlim.Release();
         }
 
@@ -52,19 +52,19 @@ namespace ChatterBox.Background
                 try
                 {
                     SocketActivityInformation socketInformation;
-                    _socket = SocketActivityInformation.AllSockets.TryGetValue(SignalingSocketId, out socketInformation)
+                    _socket = SocketActivityInformation.AllSockets.TryGetValue(SignallingSocketId, out socketInformation)
                         ? socketInformation.StreamSocket
                         : null;
                 }
                 catch (System.Exception exception)
                 {
-                    Debug.WriteLine("SignalingSocketOperation exception: " + exception.Message);
+                    Debug.WriteLine("SignallingSocketOperation exception: " + exception.Message);
                     _socket = null;
                 }
 
                 if (_socket == null)
                 {
-                    Debug.WriteLine("SignalingSocketOperation - Socket was null");
+                    Debug.WriteLine("SignallingSocketOperation - Socket was null");
                 }
 
                 return _socket;

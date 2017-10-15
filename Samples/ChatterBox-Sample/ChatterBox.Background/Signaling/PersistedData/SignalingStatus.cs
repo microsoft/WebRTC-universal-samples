@@ -12,9 +12,9 @@
 using Windows.Storage;
 using ChatterBox.Background.Settings;
 
-namespace ChatterBox.Background.Signaling.PersistedData
+namespace ChatterBox.Background.Signalling.PersistedData
 {
-    public static class SignalingStatus
+    public static class SignallingStatus
     {
         public static int Avatar
         {
@@ -42,22 +42,22 @@ namespace ChatterBox.Background.Signaling.PersistedData
             set { ApplicationData.Current.LocalSettings.Values.AddOrUpdate(nameof(IsRegistered), value); }
         }
 
-        private static ApplicationDataContainer SignalingStatusContainer
+        private static ApplicationDataContainer SignallingStatusContainer
         {
             get
             {
-                if (!ApplicationData.Current.LocalSettings.Containers.ContainsKey(nameof(SignalingStatusContainer)))
+                if (!ApplicationData.Current.LocalSettings.Containers.ContainsKey(nameof(SignallingStatusContainer)))
                 {
-                    ApplicationData.Current.LocalSettings.CreateContainer(nameof(SignalingStatusContainer),
+                    ApplicationData.Current.LocalSettings.CreateContainer(nameof(SignallingStatusContainer),
                         ApplicationDataCreateDisposition.Always);
                 }
-                return ApplicationData.Current.LocalSettings.Containers[nameof(SignalingStatusContainer)];
+                return ApplicationData.Current.LocalSettings.Containers[nameof(SignallingStatusContainer)];
             }
         }
 
         public static void Reset()
         {
-            ApplicationData.Current.LocalSettings.DeleteContainer(nameof(SignalingStatusContainer));
+            ApplicationData.Current.LocalSettings.DeleteContainer(nameof(SignallingStatusContainer));
         }
     }
 }

@@ -98,12 +98,12 @@
                     <TextBox Text="{Binding RegisteredUserName, Mode=OneWay}" HorizontalAlignment="Stretch"
                              Grid.Row="2"
                              IsReadOnly="True" Margin="5,3" />
-                    <TextBlock Text="Signaling Server Host" Margin="5,3" Grid.Row="3" HorizontalAlignment="Left" />
-                    <TextBox Text="{Binding SignalingServerHost, Mode=TwoWay}" HorizontalAlignment="Stretch"
+                    <TextBlock Text="Signalling Server Host" Margin="5,3" Grid.Row="3" HorizontalAlignment="Left" />
+                    <TextBox Text="{Binding SignallingServerHost, Mode=TwoWay}" HorizontalAlignment="Stretch"
                              Grid.Row="4"
                              behaviors:ReturnKeyCloseKeyboardBehavior.Enabled="True" Margin="5,3" />
-                    <TextBlock Text="Signaling Server Port" Margin="5,3" Grid.Row="5" HorizontalAlignment="Left" />
-                    <TextBox Text="{Binding SignalingServerPort, Mode=TwoWay}" HorizontalAlignment="Stretch"
+                    <TextBlock Text="Signalling Server Port" Margin="5,3" Grid.Row="5" HorizontalAlignment="Left" />
+                    <TextBox Text="{Binding SignallingServerPort, Mode=TwoWay}" HorizontalAlignment="Stretch"
                              Grid.Row="6"
                              behaviors:ReturnKeyCloseKeyboardBehavior.Enabled="True" Margin="5,3" />
                     <TextBlock Text="Domain" Margin="5,3" Grid.Row="7" HorizontalAlignment="Left" />

@@ -11,7 +11,7 @@
 
 using Windows.Storage;
 
-namespace ChatterBox.Background.Signaling.PersistedData
+namespace ChatterBox.Background.Signalling.PersistedData
 {
     public static class ReceivedPushNotifications
     {

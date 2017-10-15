@@ -28,8 +28,8 @@ using ChatterBox.Background.AppService.Dto;
 using ChatterBox.Background.Avatars;
 using ChatterBox.Background.Notifications;
 using ChatterBox.Background.Settings;
-using ChatterBox.Background.Signaling;
-using ChatterBox.Background.Signaling.PersistedData;
+using ChatterBox.Background.Signalling;
+using ChatterBox.Background.Signalling.PersistedData;
 using ChatterBox.Background.Tasks;
 using ChatterBox.Client.WebRTCSwapChainPanel;
 using ChatterBox.Communication.Contracts;
@@ -60,7 +60,7 @@ namespace ChatterBox
                 WindowsCollectors.PageView |
                 WindowsCollectors.Session);
             TelemetryConfiguration.Active.DisableTelemetry =
-                !SignalingSettings.AppInsightsEnabled;
+                !SignallingSettings.AppInsightsEnabled;
             UnhandledException += CurrentDomain_UnhandledException;
             InitializeComponent();
             Suspending += OnSuspending;
@@ -107,7 +107,7 @@ namespace ChatterBox
                     new ContainerControlledLifetimeManager());
                 Container.RegisterInstance<IForegroundChannel>(Container.Resolve<HubClient>(),
                     new ContainerControlledLifetimeManager());
-                Container.RegisterInstance<ISignalingSocketChannel>(Container.Resolve<HubClient>(),
+                Container.RegisterInstance<ISignallingSocketChannel>(Container.Resolve<HubClient>(),
                     new ContainerControlledLifetimeManager());
                 Container.RegisterInstance<IClientChannel>(Container.Resolve<HubClient>(),
                     new ContainerControlledLifetimeManager());
@@ -130,10 +130,10 @@ namespace ChatterBox
 
             await RegisterForPush(Container.Resolve<TaskHelper>());
 
-            var signalingTask = await RegisterSignalingTask(Container.Resolve<TaskHelper>(), false);
-            if (signalingTask == null)
+            var signallingTask = await RegisterSignallingTask(Container.Resolve<TaskHelper>(), false);
+            if (signallingTask == null)
             {
-                var message = new MessageDialog("The signaling task is required.");
+                var message = new MessageDialog("The signalling task is required.");
                 await message.ShowAsync();
                 return;
             }
@@ -208,7 +208,7 @@ namespace ChatterBox
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            if (!SignalingSettings.AppInsightsEnabled) return;
+            if (!SignallingSettings.AppInsightsEnabled) return;
             var excTelemetry = new ExceptionTelemetry(e.Exception)
             {
                 SeverityLevel = SeverityLevel.Critical,
@@ -242,7 +242,7 @@ namespace ChatterBox
 
             ETWEventLogger.Instance.LogEvent("Application Resuming", DateTimeOffset.Now.ToUnixTimeMilliseconds());
 
-            if (SignalingSettings.AppInsightsEnabled)
+            if (SignallingSettings.AppInsightsEnabled)
             {
                 var telemetry = new TelemetryClient();
                 var eventTel = new EventTelemetry("Application Resuming") {Timestamp = DateTimeOffset.UtcNow};
@@ -269,7 +269,7 @@ namespace ChatterBox
             // Suspend video capture and rendering in the background.
             await client.SuspendCallVideoAsync();
 
-            if (SignalingSettings.AppInsightsEnabled)
+            if (SignallingSettings.AppInsightsEnabled)
             {
                 var telemetry = new TelemetryClient();
                 var eventTel = new EventTelemetry("Application Suspending") {Timestamp = DateTimeOffset.UtcNow};
@@ -367,14 +367,14 @@ namespace ChatterBox
             return sessionConnTask;
         }
 
-        private static async Task<IBackgroundTaskRegistration> RegisterSignalingTask(TaskHelper helper,
+        private static async Task<IBackgroundTaskRegistration> RegisterSignallingTask(TaskHelper helper,
             bool registerAgain = true)
         {
-            var signalingTask = helper.GetTask(nameof(SignalingTask)) ??
-                                await helper.RegisterTask(nameof(SignalingTask), typeof (SignalingTask).FullName,
+            var signallingTask = helper.GetTask(nameof(SignallingTask)) ??
+                                await helper.RegisterTask(nameof(SignallingTask), typeof (SignallingTask).FullName,
                                     new SocketActivityTrigger(), registerAgain).AsTask();
 
-            return signalingTask;
+            return signallingTask;
         }
 
         private async Task Resume()
@@ -382,7 +382,7 @@ namespace ChatterBox
             // Reconnect the Hub client
             await ConnectHubClient();
 
-            // Reconnect the Signaling socket
+            // Reconnect the Signalling socket
             if (Container.IsRegistered(typeof (ISocketConnection)))
             {
                 if (Container.Resolve<HubClient>().IsConnected)
@@ -399,7 +399,7 @@ namespace ChatterBox
             // After sending client heartbeat and we are not registered, then, show the connecting view
             // with updated registration status
             var foregroundUpdateChannel = Container.Resolve<IForegroundChannel>();
-            if (!SignalingStatus.IsRegistered)
+            if (!SignallingStatus.IsRegistered)
             {
                 Container.Resolve<MainViewModel>().IsActive = false;
             }
@@ -433,8 +433,8 @@ namespace ChatterBox
         private void UnRegisterAllBackgroundTask()
         {
             var helper = new TaskHelper();
-            var signalingReg = helper.GetTask(nameof(SignalingTask));
-            signalingReg?.Unregister(true);
+            var signallingReg = helper.GetTask(nameof(SignallingTask));
+            signallingReg?.Unregister(true);
 
             var regOp = helper.GetTask(nameof(PushNotificationTask));
             regOp?.Unregister(true);

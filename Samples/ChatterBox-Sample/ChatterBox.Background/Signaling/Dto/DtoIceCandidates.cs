@@ -11,7 +11,7 @@
 
 using System.Runtime.Serialization;
 
-namespace ChatterBox.Background.Signaling.Dto
+namespace ChatterBox.Background.Signalling.Dto
 {
     public sealed class DtoIceCandidates
     {

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using ChatterBox.Background.AppService.Dto;
 using ChatterBox.Communication.Messages.Relay;
 using Org.WebRtc;
-using ChatterBox.Background.Signaling.Dto;
+using ChatterBox.Background.Signalling.Dto;
 using Newtonsoft.Json;
 using System.Diagnostics;
 

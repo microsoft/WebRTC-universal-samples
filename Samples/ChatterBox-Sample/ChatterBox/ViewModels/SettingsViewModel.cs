@@ -98,8 +98,8 @@ namespace ChatterBox.ViewModels
         private MediaDevice _selectedMicrophone;
 
         private CodecInfo _selectedVideoCodec;
-        private string _signalingServerHost;
-        private int _signalingServerPort;
+        private string _signallingServerHost;
+        private int _signallingServerPort;
 
         private ObservableCollection<CodecInfo> _videoCodecs;
 
@@ -405,16 +405,16 @@ namespace ChatterBox.ViewModels
             set { SetProperty(ref _selectedVideoCodec, value); }
         }
 
-        public string SignalingServerHost
+        public string SignallingServerHost
         {
-            get { return _signalingServerHost; }
-            set { SetProperty(ref _signalingServerHost, value); }
+            get { return _signallingServerHost; }
+            set { SetProperty(ref _signallingServerHost, value); }
         }
 
-        public int SignalingServerPort
+        public int SignallingServerPort
         {
-            get { return _signalingServerPort; }
-            set { SetProperty(ref _signalingServerPort, value); }
+            get { return _signallingServerPort; }
+            set { SetProperty(ref _signallingServerPort, value); }
         }
 
         /// <summary>
@@ -550,10 +550,10 @@ namespace ChatterBox.ViewModels
         {
             await _callChannel.InitializeRtcAsync();
 
-            SignalingServerPort = int.Parse(SignalingSettings.SignalingServerPort);
-            SignalingServerHost = SignalingSettings.SignalingServerHost;
+            SignallingServerPort = int.Parse(SignallingSettings.SignallingServerPort);
+            SignallingServerHost = SignallingSettings.SignallingServerHost;
             Domain = RegistrationSettings.Domain;
-            AppInsightsEnabled = SignalingSettings.AppInsightsEnabled;
+            AppInsightsEnabled = SignallingSettings.AppInsightsEnabled;
             RegisteredUserName = RegistrationSettings.Name;
 
             if (_localSettings.Values[nameof(NtpServerIp)] != null)
@@ -701,15 +701,15 @@ namespace ChatterBox.ViewModels
         private async void OnSaveCommandExecute()
         {
             var registrationSettingChanged = false;
-            if (SignalingSettings.SignalingServerPort != SignalingServerPort.ToString())
+            if (SignallingSettings.SignallingServerPort != SignallingServerPort.ToString())
             {
-                SignalingSettings.SignalingServerPort = SignalingServerPort.ToString();
+                SignallingSettings.SignallingServerPort = SignallingServerPort.ToString();
                 registrationSettingChanged = true;
             }
 
-            if (SignalingSettings.SignalingServerHost != SignalingServerHost)
+            if (SignallingSettings.SignallingServerHost != SignallingServerHost)
             {
-                SignalingSettings.SignalingServerHost = SignalingServerHost;
+                SignallingSettings.SignallingServerHost = SignallingServerHost;
                 registrationSettingChanged = true;
             }
             if (RegistrationSettings.Domain != Domain)
@@ -723,7 +723,7 @@ namespace ChatterBox.ViewModels
                 OnRegistrationSettingsChanged?.Invoke();
             }
 
-            SignalingSettings.AppInsightsEnabled = AppInsightsEnabled;
+            SignallingSettings.AppInsightsEnabled = AppInsightsEnabled;
 
             if (NtpServerIp != null)
             {

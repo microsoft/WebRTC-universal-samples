@@ -28,7 +28,7 @@ using ChatterBox.Background.AppService;
 using ChatterBox.Background.AppService.Dto;
 using ChatterBox.Background.Avatars;
 using ChatterBox.Background.Settings;
-using ChatterBox.Background.Signaling.PersistedData;
+using ChatterBox.Background.Signalling.PersistedData;
 using ChatterBox.Client.WebRTCSwapChainPanel;
 using ChatterBox.Communication.Contracts;
 using ChatterBox.Communication.Messages.Relay;
@@ -420,7 +420,7 @@ namespace ChatterBox.ViewModels
         }
 
         public ImageSource OwnProfileSource { get; } =
-            new BitmapImage(new Uri(AvatarLink.EmbeddedLinkFor(SignalingStatus.Avatar)));
+            new BitmapImage(new Uri(AvatarLink.EmbeddedLinkFor(SignallingStatus.Avatar)));
 
         public ImageSource ProfileSource
         {

@@ -14,10 +14,10 @@ using ChatterBox.Background.AppService.Dto;
 
 namespace ChatterBox.Background.AppService
 {
-    public interface ISignalingSocketChannel
+    public interface ISignallingSocketChannel
     {
-        IAsyncOperation<ConnectionStatus> ConnectToSignalingServerAsync(ConnectionOwner connectionOwner);
-        IAsyncAction DisconnectSignalingServerAsync();
+        IAsyncOperation<ConnectionStatus> ConnectToSignallingServerAsync(ConnectionOwner connectionOwner);
+        IAsyncAction DisconnectSignallingServerAsync();
         IAsyncOperation<ConnectionStatus> GetConnectionStatusAsync();
     }
 }

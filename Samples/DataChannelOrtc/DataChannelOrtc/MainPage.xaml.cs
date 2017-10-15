@@ -125,7 +125,7 @@ namespace DataChannelOrtc
             var name = GetLocalPeerName();
             Debug.WriteLine($"Connecting to server from local peer: {name}");
 
-            _signaler = new TcpSignaler("my.signaling.server.ip", "8888", name);
+            _signaler = new TcpSignaler("my.signalling.server.ip", "8888", name);
 
             _signaler.Connected += Signaler_Connected;
             _signaler.ConnectionFailed += Signaler_ConnectionFailed;

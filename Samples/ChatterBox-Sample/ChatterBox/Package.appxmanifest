@@ -37,7 +37,7 @@
             <uap:Task Type="phoneCall" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="ChatterBox.Background.Tasks.SignalingTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="ChatterBox.Background.Tasks.SignallingTask">
           <BackgroundTasks ServerName="BackgroundHost">
             <Task Type="systemEvent" />
             <uap:Task Type="chatMessageNotification" />

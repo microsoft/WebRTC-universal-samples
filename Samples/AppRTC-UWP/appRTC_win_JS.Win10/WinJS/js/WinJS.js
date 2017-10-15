@@ -12433,7 +12433,7 @@ define('WinJS/Utilities/_XYFocus',["require", "exports", "../Core/_Global", "../
                 var index = _afEnabledFrames.lastIndexOf(result.target.contentWindow);
                 if (index >= 0) {
                     // If we successfully moved focus and the new focused item is an IFRAME, then we need to notify it
-                    // Note on coordinates: When signaling enter, DO transform the coordinates into the child frame's coordinate system.
+                    // Note on coordinates: When signalling enter, DO transform the coordinates into the child frame's coordinate system.
                     var refRect = _toIRect({
                         left: result.referenceRect.left - result.targetRect.left,
                         top: result.referenceRect.top - result.targetRect.top,
@@ -12454,7 +12454,7 @@ define('WinJS/Utilities/_XYFocus',["require", "exports", "../Core/_Global", "../
             return true;
         } else {
             // No focus target was found; if we are inside an IFRAME, notify the parent that focus is exiting this IFRAME
-            // Note on coordinates: When signaling exit, do NOT transform the coordinates into the parent's coordinate system.
+            // Note on coordinates: When signalling exit, do NOT transform the coordinates into the parent's coordinate system.
             if (top !== window) {
                 var refRect = referenceRect;
                 if (!refRect) {

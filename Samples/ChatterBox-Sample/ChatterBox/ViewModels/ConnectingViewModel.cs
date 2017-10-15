@@ -11,8 +11,8 @@
 
 using System;
 using System.Threading.Tasks;
-using ChatterBox.Background.Signaling;
-using ChatterBox.Background.Signaling.PersistedData;
+using ChatterBox.Background.Signalling;
+using ChatterBox.Background.Signalling.PersistedData;
 using ChatterBox.MVVM;
 using ChatterBox.Services;
 
@@ -52,7 +52,7 @@ namespace ChatterBox.ViewModels
             var isConnected = await _connection.GetIsConnectedAsync();
             if (isConnected)
             {
-                if (SignalingStatus.IsRegistered)
+                if (SignallingStatus.IsRegistered)
                 {
                     OnRegistered?.Invoke();
                 }
@@ -77,7 +77,7 @@ namespace ChatterBox.ViewModels
         public event Action OnRegistrationFailed;
         public event Action OnShowSettings;
 
-        public async Task SwitchSignalingServer()
+        public async Task SwitchSignallingServer()
         {
             var isConnected = await _connection.GetIsConnectedAsync();
             if (isConnected)
@@ -103,7 +103,7 @@ namespace ChatterBox.ViewModels
 
         private void OnRegistrationStatusUpdated()
         {
-            if (SignalingStatus.IsRegistered)
+            if (SignallingStatus.IsRegistered)
             {
                 OnRegistered?.Invoke();
             }

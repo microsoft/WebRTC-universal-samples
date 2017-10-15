@@ -21,7 +21,7 @@ using Windows.Storage;
 using ChatterBox.Communication.Messages.Relay;
 using Newtonsoft.Json;
 
-namespace ChatterBox.Background.Signaling.PersistedData
+namespace ChatterBox.Background.Signalling.PersistedData
 {
     public static class SignaledInstantMessages
     {

@@ -390,7 +390,7 @@ namespace ChatterBox.Background.Call
 
         public void TrackCallStarted()
         {
-            _hub.IsAppInsightsEnabled = SignalingSettings.AppInsightsEnabled;
+            _hub.IsAppInsightsEnabled = SignallingSettings.AppInsightsEnabled;
             if (!_hub.IsAppInsightsEnabled)
             {
                 return;

@@ -14,7 +14,7 @@ using Windows.Storage;
 using ChatterBox.Background.Settings;
 using ChatterBox.Communication.Messages.Peers;
 
-namespace ChatterBox.Background.Signaling.PersistedData
+namespace ChatterBox.Background.Signalling.PersistedData
 {
     public static class SignaledPeerData
     {

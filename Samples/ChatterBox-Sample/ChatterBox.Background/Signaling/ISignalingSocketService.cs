@@ -9,10 +9,10 @@
 //
 //*********************************************************
 
-namespace ChatterBox.Background.Signaling
+namespace ChatterBox.Background.Signalling
 {
-    public interface ISignalingSocketService
+    public interface ISignallingSocketService
     {
-        ISignalingSocketOperation SocketOperation { get; }
+        ISignallingSocketOperation SocketOperation { get; }
     }
 }

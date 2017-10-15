@@ -13,7 +13,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using ChatterBox.Background.AppService.Dto;
-using ChatterBox.Background.Signaling.Dto;
+using ChatterBox.Background.Signalling.Dto;
 using ChatterBox.Communication.Messages.Relay;
 using Newtonsoft.Json;
 using Org.WebRtc;

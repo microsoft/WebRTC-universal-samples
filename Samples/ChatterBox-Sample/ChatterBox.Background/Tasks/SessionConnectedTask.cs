@@ -26,16 +26,16 @@ namespace ChatterBox.Background.Tasks
             {
                 var taskHelper = new TaskHelper();
 
-                var signalingTask = taskHelper.GetTask(nameof(SignalingTask));
+                var signallingTask = taskHelper.GetTask(nameof(SignallingTask));
 
                 var connOwner = new ConnectionOwner
                 {
-                    OwnerId = signalingTask.TaskId.ToString()
+                    OwnerId = signallingTask.TaskId.ToString()
                 };
 
-                await Hub.Instance.SignalingSocketChannel.ConnectToSignalingServerAsync(connOwner);
+                await Hub.Instance.SignallingSocketChannel.ConnectToSignallingServerAsync(connOwner);
 
-                await Hub.Instance.SignalingClient.RegisterAsync(new Registration
+                await Hub.Instance.SignallingClient.RegisterAsync(new Registration
                 {
                     Name = RegistrationSettings.Name,
                     UserId = RegistrationSettings.UserId,

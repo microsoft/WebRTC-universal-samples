@@ -136,7 +136,7 @@ namespace ChatterBox.Background.Call
             return Context.WithState(st => st.RemoteHangupAsync(message)).AsAsyncAction();
         }
 
-        // WebRTC signaling
+        // WebRTC signalling
         public IAsyncAction OnSdpAnswerAsync(RelayMessage message)
         {
             ETWEventLogger.Instance.LogEvent("Sdp Answer", "Payload is: " + message.Payload,

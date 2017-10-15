@@ -19,21 +19,21 @@ using Windows.Networking.Sockets;
 using ChatterBox.Background.AppService;
 using ChatterBox.Background.AppService.Dto;
 using ChatterBox.Background.Settings;
-using ChatterBox.Background.Signaling;
-using ChatterBox.Background.Signaling.PersistedData;
+using ChatterBox.Background.Signalling;
+using ChatterBox.Background.Signalling.PersistedData;
 
 namespace ChatterBox.Background
 {
-    public sealed class SignalingSocketChannel : ISignalingSocketService, ISignalingSocketChannel
+    public sealed class SignallingSocketChannel : ISignallingSocketService, ISignallingSocketChannel
     {
-        public IAsyncOperation<ConnectionStatus> ConnectToSignalingServerAsync(ConnectionOwner connectionOwner)
+        public IAsyncOperation<ConnectionStatus> ConnectToSignallingServerAsync(ConnectionOwner connectionOwner)
         {
             return Task.Run(async () =>
             {
                 try
                 {
                     SignaledPeerData.Reset();
-                    SignalingStatus.Reset();
+                    SignallingStatus.Reset();
                     await SignaledInstantMessages.ResetAsync();
 
                     var socket = new StreamSocket();
@@ -41,12 +41,12 @@ namespace ChatterBox.Background
                         SocketActivityConnectedStandbyAction.Wake);
 
                     var connectCancellationTokenSource = new CancellationTokenSource(2000);
-                    var connectAsync = socket.ConnectAsync(new HostName(SignalingSettings.SignalingServerHost),
-                        SignalingSettings.SignalingServerPort, SocketProtectionLevel.PlainSocket);
+                    var connectAsync = socket.ConnectAsync(new HostName(SignallingSettings.SignallingServerHost),
+                        SignallingSettings.SignallingServerPort, SocketProtectionLevel.PlainSocket);
                     var connectTask = connectAsync.AsTask(connectCancellationTokenSource.Token);
                     await connectTask;
 
-                    socket.TransferOwnership(SignalingSocketOperation.SignalingSocketId);
+                    socket.TransferOwnership(SignallingSocketOperation.SignallingSocketId);
                     return new ConnectionStatus
                     {
                         IsConnected = true
@@ -63,13 +63,13 @@ namespace ChatterBox.Background
             }).AsAsyncOperation();
         }
 
-        public IAsyncAction DisconnectSignalingServerAsync()
+        public IAsyncAction DisconnectSignallingServerAsync()
         {
             return Task.Run(async () =>
             {
                 SocketOperation.Disconnect();
                 SignaledPeerData.Reset();
-                SignalingStatus.Reset();
+                SignallingStatus.Reset();
                 await SignaledInstantMessages.ResetAsync();
             }).AsAsyncAction();
             
@@ -86,6 +86,6 @@ namespace ChatterBox.Background
             }
         }
 
-        public ISignalingSocketOperation SocketOperation => new SignalingSocketOperation();
+        public ISignallingSocketOperation SocketOperation => new SignallingSocketOperation();
     }
 }

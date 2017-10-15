@@ -21,7 +21,7 @@ using Buffer = Windows.Storage.Streams.Buffer;
 
 namespace ChatterBox.Background.Tasks
 {
-    public sealed class SignalingTask : IBackgroundTask
+    public sealed class SignallingTask : IBackgroundTask
     {
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -34,7 +34,7 @@ namespace ChatterBox.Background.Tasks
                     {
                         case SocketActivityTriggerReason.SocketActivity:
                             string request = null;
-                            using (var socketOperation = Hub.Instance.SignalingSocketChannel.SocketOperation)
+                            using (var socketOperation = Hub.Instance.SignallingSocketChannel.SocketOperation)
                             {
                                 if (socketOperation.Socket != null)
                                 {
@@ -68,22 +68,22 @@ namespace ChatterBox.Background.Tasks
                             }
                             if (request != null)
                             {
-                                await Hub.Instance.SignalingClient.HandleRequest(request);
+                                await Hub.Instance.SignallingClient.HandleRequest(request);
                             }
                             break;
                         case SocketActivityTriggerReason.KeepAliveTimerExpired:
-                            await Hub.Instance.SignalingClient.ClientHeartBeatAsync();
+                            await Hub.Instance.SignallingClient.ClientHeartBeatAsync();
                             break;
                         case SocketActivityTriggerReason.SocketClosed:
-                            await Hub.Instance.SignalingClient.ServerConnectionErrorAsync();
+                            await Hub.Instance.SignallingClient.ServerConnectionErrorAsync();
                             //ToastNotificationService.ShowToastNotification("Disconnected.");
                             break;
                     }
                 }
                 catch (Exception exception)
                 {
-                    await Hub.Instance.SignalingClient.ServerConnectionErrorAsync();
-                    ToastNotificationService.ShowToastNotification(string.Format("Error in SignalingTask: {0}",
+                    await Hub.Instance.SignallingClient.ServerConnectionErrorAsync();
+                    ToastNotificationService.ShowToastNotification(string.Format("Error in SignallingTask: {0}",
                         exception.Message));
                 }
             }

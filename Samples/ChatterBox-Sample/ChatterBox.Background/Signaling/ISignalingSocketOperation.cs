@@ -12,9 +12,9 @@
 using System;
 using Windows.Networking.Sockets;
 
-namespace ChatterBox.Background.Signaling
+namespace ChatterBox.Background.Signalling
 {
-    public interface ISignalingSocketOperation : IDisposable
+    public interface ISignallingSocketOperation : IDisposable
     {
         StreamSocket Socket { get; }
         void Disconnect();

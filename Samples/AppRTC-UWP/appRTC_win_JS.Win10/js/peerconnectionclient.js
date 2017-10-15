@@ -35,7 +35,7 @@ var PeerConnectionClient = function(params, startTime) {
   this.pc_.onicecandidate = this.onIceCandidate_.bind(this);
   this.pc_.onaddstream = this.onRemoteStreamAdded_.bind(this);
   this.pc_.onremovestream = trace.bind(null, 'Remote stream removed.');
-  this.pc_.onsignalingstatechange = this.onSignalingStateChanged_.bind(this);
+  this.pc_.onsignallingstatechange = this.onSignallingStateChanged_.bind(this);
   this.pc_.oniceconnectionstatechange =
       this.onIceConnectionStateChanged_.bind(this);
 
@@ -52,8 +52,8 @@ var PeerConnectionClient = function(params, startTime) {
   this.onremotehangup = null;
   this.onremotesdpset = null;
   this.onremotestreamadded = null;
-  this.onsignalingmessage = null;
-  this.onsignalingstatechange = null;
+  this.onsignallingmessage = null;
+  this.onsignallingstatechange = null;
 };
 
 // Set up audio and video regardless of what devices are present.
@@ -113,12 +113,12 @@ PeerConnectionClient.prototype.startAsCallee = function(initialMessages) {
     // Convert received messages to JSON objects and add them to the message
     // queue.
     for (var i = 0, len = initialMessages.length; i < len; i++) {
-      this.receiveSignalingMessage(initialMessages[i]);
+      this.receiveSignallingMessage(initialMessages[i]);
     }
     return true;
   }
 
-  // We may have queued messages received from the signaling channel before
+  // We may have queued messages received from the signalling channel before
   // started.
   if (this.messageQueue_.length > 0) {
     this.drainMessageQueue_();
@@ -126,7 +126,7 @@ PeerConnectionClient.prototype.startAsCallee = function(initialMessages) {
   return true;
 };
 
-PeerConnectionClient.prototype.receiveSignalingMessage = function(message) {
+PeerConnectionClient.prototype.receiveSignallingMessage = function(message) {
   var messageObj = parseJSON(message);
   if (!messageObj) {
     return;
@@ -159,7 +159,7 @@ PeerConnectionClient.prototype.getPeerConnectionStates = function() {
     return null;
   }
   return {
-    'signalingState': this.pc_.signalingState,
+    'signallingState': this.pc_.signallingState,
     'iceGatheringState': this.pc_.iceGatheringState,
     'iceConnectionState': this.pc_.iceConnectionState
   };
@@ -197,12 +197,12 @@ PeerConnectionClient.prototype.setLocalSdpAndNotify_ =
       trace.bind(null, 'Set session description success.'),
       this.onError_.bind(this, 'setLocalDescription'));
 
-  if (this.onsignalingmessage) {
+  if (this.onsignallingmessage) {
     // Chrome version of RTCSessionDescription can't be serialized directly
     // because it JSON.stringify won't include attributes which are on the
     // object's prototype chain. By creating the message to serialize explicitly
     // we can avoid the issue.
-    this.onsignalingmessage({
+    this.onsignallingmessage({
       sdp: sessionDescription.sdp,
       type: sessionDescription.type
     });
@@ -233,19 +233,19 @@ PeerConnectionClient.prototype.onSetRemoteDescriptionSuccess_ = function() {
   }
 };
 
-PeerConnectionClient.prototype.processSignalingMessage_ = function(message) {
+PeerConnectionClient.prototype.processSignallingMessage_ = function(message) {
   if (message.type === 'offer' && !this.isInitiator_) {
-    if (this.pc_.signalingState !== 'stable') {
+    if (this.pc_.signallingState !== 'stable') {
       trace('ERROR: remote offer received in unexpected state: ' +
-            this.pc_.signalingState);
+            this.pc_.signallingState);
       return;
     }
     this.setRemoteSdp_(message);
     this.doAnswer_();
   } else if (message.type === 'answer' && this.isInitiator_) {
-    if (this.pc_.signalingState !== 'have-local-offer') {
+    if (this.pc_.signallingState !== 'have-local-offer') {
       trace('ERROR: remote answer received in unexpected state: ' +
-            this.pc_.signalingState);
+            this.pc_.signallingState);
       return;
     }
     this.setRemoteSdp_(message);
@@ -279,7 +279,7 @@ PeerConnectionClient.prototype.drainMessageQueue_ = function() {
     return;
   }
   for (var i = 0, len = this.messageQueue_.length; i < len; i++) {
-    this.processSignalingMessage_(this.messageQueue_[i]);
+    this.processSignallingMessage_(this.messageQueue_[i]);
   }
   this.messageQueue_ = [];
 };
@@ -294,8 +294,8 @@ PeerConnectionClient.prototype.onIceCandidate_ = function(event) {
         id: event.candidate.sdpMid,
         candidate: event.candidate.candidate
       };
-      if (this.onsignalingmessage) {
-        this.onsignalingmessage(message);
+      if (this.onsignallingmessage) {
+        this.onsignallingmessage(message);
       }
       this.recordIceCandidate_('Local', event.candidate);
     }
@@ -304,14 +304,14 @@ PeerConnectionClient.prototype.onIceCandidate_ = function(event) {
   }
 };
 
-PeerConnectionClient.prototype.onSignalingStateChanged_ = function() {
+PeerConnectionClient.prototype.onSignallingStateChanged_ = function() {
   if (!this.pc_) {
     return;
   }
-  trace('Signaling state changed to: ' + this.pc_.signalingState);
+  trace('Signalling state changed to: ' + this.pc_.signallingState);
 
-  if (this.onsignalingstatechange) {
-    this.onsignalingstatechange();
+  if (this.onsignallingstatechange) {
+    this.onsignallingstatechange();
   }
 };
 

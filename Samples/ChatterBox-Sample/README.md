@@ -11,7 +11,7 @@
 > **Full WebRTC for UWP Source & Samples**
 The samples in this repository are a mirror of the full WebRTC UWP source which can be found below.  For the most up to date samples, and the complete source for the WebRTC UWP port, please visit: https://github.com/webrtc-uwp
 
-Utilizes the [Microsoft WebRTC for UWP Nuget package](http://www.nuget.org/packages/WebRtc/) to implement a full featured Voice-Over-IP application for all Windows 10 platforms leveraging the [Windows.ApplicationModel.Calls](https://msdn.microsoft.com/library/windows/apps/windows.applicationmodel.calls.aspx) namespace.  This sample demonstrates the implementation of a UWP client which runs on Desktop, Mobile, Xbox and HoloLens and a signaling server component.  The resulting solution features VoIP audio and video calling, text messaging, user presence (here, away, offline), receiving of calls when the application is suspended, closed or the device is rebooted, and more.  Out of the box, the application allows for two way calls between remote parties over various network topologies and NAT conditions and has been tested on all Windows 10 platforms.  The sample also demonstrates key technologies required to implement a full VoIP solution on Windows 10 such as maintaining a call when the app is backgrounded, efficient rendering from a background process to a foreground application via SwapChainPanel, WASAPI audio rendering, and Windows 10 dialer integration.
+Utilizes the [Microsoft WebRTC for UWP Nuget package](http://www.nuget.org/packages/WebRtc/) to implement a full featured Voice-Over-IP application for all Windows 10 platforms leveraging the [Windows.ApplicationModel.Calls](https://msdn.microsoft.com/library/windows/apps/windows.applicationmodel.calls.aspx) namespace.  This sample demonstrates the implementation of a UWP client which runs on Desktop, Mobile, Xbox and HoloLens and a signalling server component.  The resulting solution features VoIP audio and video calling, text messaging, user presence (here, away, offline), receiving of calls when the application is suspended, closed or the device is rebooted, and more.  Out of the box, the application allows for two way calls between remote parties over various network topologies and NAT conditions and has been tested on all Windows 10 platforms.  The sample also demonstrates key technologies required to implement a full VoIP solution on Windows 10 such as maintaining a call when the app is backgrounded, efficient rendering from a background process to a foreground application via SwapChainPanel, WASAPI audio rendering, and Windows 10 dialer integration.
 
 > **Note:** This sample is one of many WebRTC for UWP samples and hands on labs.  The source code for the underlying WebRTC for UWP port is available as well and will be made public on GitHub shortly.  In the interim, please contact [jacadd@microsoft.com](mailto:jacadd@microsoft.com) for access.
 
@@ -50,7 +50,7 @@ This Sample utilizes Windows Mobile Extensions for UWP and will only work on mob
 3. Starting in the folder where you unzipped the samples, go to the Samples subfolder, then the subfolder for this specific sample, then the subfolder for C#. Double-click the Visual Studio 2015 Solution (.sln) file.
 4. Press Ctrl+Shift+B, or select **Build** \> **Build Solution**.
 
-> **Note:** There are 2 projects that are valid startup projects.  **ChatterBox (Universal Windows)** is a client application that can be run on any Windows 10 platform and **ChatterBox.Server** which is intended to be run on a Desktop machine or Azure VM and provides signaling to the client.
+> **Note:** There are 2 projects that are valid startup projects.  **ChatterBox (Universal Windows)** is a client application that can be run on any Windows 10 platform and **ChatterBox.Server** which is intended to be run on a Desktop machine or Azure VM and provides signalling to the client.
 
 ### Deploying the sample
 
@@ -65,9 +65,9 @@ This Sample utilizes Windows Mobile Extensions for UWP and will only work on mob
 This sample demonstrates completion of a VoIP audio/video call between two peers.  In order to make a call, three components are required:
 
 - Two clients, each running the ChatterBox (Universal Windows) app.
-- One server, running the Chatterbox.Server app.  Each client must be able to access the server IP - Azure VMs (preferably with a static IP) work well for the signaling server.  One of the client devices may be used as a server as well to reduce the number of devices required.
+- One server, running the Chatterbox.Server app.  Each client must be able to access the server IP - Azure VMs (preferably with a static IP) work well for the signalling server.  One of the client devices may be used as a server as well to reduce the number of devices required.
 
-> **Note:** Call data is **not** routed through the above server.  The purpose of the server is to provide signaling between the two clients; it does not participate in the network pipeline during a call.
+> **Note:** Call data is **not** routed through the above server.  The purpose of the server is to provide signalling between the two clients; it does not participate in the network pipeline during a call.
 
 
 ### Prepare to make a call

@@ -126,7 +126,7 @@ namespace PeerConnectionClient.Signalling
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("[Error] Signaling: Failed to connect to server: " + ex.Message);
+                Debug.WriteLine("[Error] Signalling: Failed to connect to server: " + ex.Message);
             }
         }
 
@@ -320,7 +320,7 @@ namespace PeerConnectionClient.Signalling
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("[Error] Signaling: Failed to read from socket. " + ex.Message);
+                Debug.WriteLine("[Error] Signalling: Failed to read from socket. " + ex.Message);
                 if (loadTask != null && loadTask.Status == Windows.Foundation.AsyncStatus.Started)
                 {
                     loadTask.Cancel();
@@ -333,7 +333,7 @@ namespace PeerConnectionClient.Signalling
             int i = data.IndexOf("\r\n\r\n");
             if (i != -1)
             {
-                Debug.WriteLine("Signaling: Headers received [i=" + i + " data(" + data.Length + ")"/*=" + data*/ + "]");
+                Debug.WriteLine("Signalling: Headers received [i=" + i + " data(" + data.Length + ")"/*=" + data*/ + "]");
                 if (GetHeaderValue(data, false, "\r\nContent-Length: ", out content_length))
                 {
                     int total_response_size = (i + 4) + content_length;
@@ -349,7 +349,7 @@ namespace PeerConnectionClient.Signalling
                 }
                 else
                 {
-                    Debug.WriteLine("[Error] Signaling: No content length field specified by the server.");
+                    Debug.WriteLine("[Error] Signalling: No content length field specified by the server.");
                 }
             }
             return ret ? Tuple.Create(data, content_length) : null;
@@ -373,7 +373,7 @@ namespace PeerConnectionClient.Signalling
                 catch (Exception e)
                 {
                     // This could be a connection failure like a timeout
-                    Debug.WriteLine("[Error] Signaling: Failed to connect to " + _server + ":" + _port + " : " + e.Message);
+                    Debug.WriteLine("[Error] Signalling: Failed to connect to " + _server + ":" + _port + " : " + e.Message);
                     return false;
                 }
                 // Send the request
@@ -520,7 +520,7 @@ namespace PeerConnectionClient.Signalling
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine("[Error] Signaling: Long-polling exception: {0}", e.Message);
+                        Debug.WriteLine("[Error] Signalling: Long-polling exception: {0}", e.Message);
                     }
                 }
             }
