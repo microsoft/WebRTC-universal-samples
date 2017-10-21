@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:shared="clr-namespace:DataChannelOrtc.Shared;assembly=DataChannelOrtc.Shared"
+    x:Class="DataChannelOrtc.Shared.MainPage">
+    <ContentPage.BindingContext>
+        <shared:MainPageViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ListView x:Name="uxPeers" Grid.ColumnSpan="2" ItemsSource="{Binding Peers}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Label Text="{Binding Name}"/>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button Command="{Binding ConnectToPeerCommand}" CommandParameter="{Binding Source={x:Reference uxPeers}, Path=SelectedItem}" Grid.Row="1" Grid.ColumnSpan="2" Text="Connect to peer"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
+<!--
+<RelativePanel>
+            <ListBox x:Name="uxPeers" ItemsSource="{x:Bind Peers}" SelectedItem="{x:Bind SelectedPeer,Mode=TwoWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.LeftOf="uxConnectToPeer" RelativePanel.AlignTopWithPanel="True" MaxHeight="200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button x:Name="uxConnectToPeer" Click="uxConnectToPeer_Click" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Content="Connect"/>
+            <TextBlock x:Name="uxConversation" Text="{x:Bind Conversation, Mode=OneWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="uxPeers" RelativePanel.Above="uxMessage"/>
+            <TextBox x:Name="uxMessage" Text="{x:Bind Message, Mode=TwoWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.LeftOf="uxSend"/>
+            <Button x:Name="uxSend" Click="uxSend_Click" IsEnabled="{x:Bind IsSendEnabled, Mode=OneWay}" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
+                <SymbolIcon Symbol="Send"/>
+            </Button>
+        </RelativePanel>-->
