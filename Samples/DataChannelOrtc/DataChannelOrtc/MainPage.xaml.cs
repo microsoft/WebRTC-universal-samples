@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DataChannelOrtc.Signaling;
+using Org.Ortc.Log;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -50,6 +51,23 @@ namespace DataChannelOrtc
         public ObservableCollection<Peer> Peers = new ObservableCollection<Peer>();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private Peer _remotePeer;
+        public Peer RemotePeer
+        {
+            get
+            {
+                if (_remotePeer == null)
+                    _remotePeer = SelectedPeer;
+                return _remotePeer;
+            }
+            set
+            {
+                if (_remotePeer == value)
+                    return;
+                _remotePeer = value;
+            }
+        }
 
         private Peer _selectedPeer;
         public Peer SelectedPeer
@@ -121,11 +139,13 @@ namespace DataChannelOrtc
         {
             Ortc.Setup();
             Settings.ApplyDefaults();
+            Logger.InstallTelnetLogger(59999, 60, true);
+            Logger.SetLogLevel(Level.Trace);
 
             var name = GetLocalPeerName();
             Debug.WriteLine($"Connecting to server from local peer: {name}");
 
-            _signaler = new TcpSignaler("my.signaling.server.ip", "8888", name);
+            _signaler = new TcpSignaler("40.83.179.150", "8888", name);
 
             _signaler.Connected += Signaler_Connected;
             _signaler.ConnectionFailed += Signaler_ConnectionFailed;
@@ -185,7 +205,7 @@ namespace DataChannelOrtc
 
             _gatherer.OnLocalCandidate += async (candidate) =>
             {
-                await _signaler.SendToPeer(SelectedPeer.Id, candidate.Candidate.ToJsonString());
+                await _signaler.SendToPeer(RemotePeer.Id, candidate.Candidate.ToJsonString());
             };
 
             var cert = await RTCCertificate.GenerateCertificate();
@@ -201,7 +221,7 @@ namespace DataChannelOrtc
 
         private async void Signaler_PeerConnected(object sender, Peer peer)
         {
-            Debug.WriteLine($"Peer connected {peer.Name}");
+            Debug.WriteLine($"Peer connected {peer.Name} / {peer.Id}");
 
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
@@ -220,6 +240,7 @@ namespace DataChannelOrtc
                 // A peer has let us know that they have begun initiating a data channel.  In this scenario,
                 // we are the "remote" peer so make sure _isInitiator is false.  Begin gathering ice candidates.
                 _isInitiator = false;
+                RemotePeer = peer;
                 OpenDataChannel(peer);    // TODO: This is incorrect - message is definitely not the peer's name.
                 return;
             }
@@ -247,6 +268,7 @@ namespace DataChannelOrtc
             {
                 var dtlsParameters = RTCDtlsParameters.FromJsonString(message);
                 _dtls.Start(dtlsParameters);
+                Debug.WriteLine("Dtls start called.");
                 return;
             }
 
@@ -262,11 +284,12 @@ namespace DataChannelOrtc
 
                     // The remote side will receive notification when the data channel is opened.
                     _sctp.OnDataChannel += Sctp_OnDataChannel;
+                    _sctp.OnStateChange += Sctp_OnStateChange;
 
                     _sctp.Start(sctpCaps);
 
                     var caps = RTCSctpTransport.GetCapabilities();
-                    _signaler.SendToPeer(peer.Id, caps.ToJsonString());
+                    _signaler.SendToPeer(RemotePeer.Id, caps.ToJsonString());
                 }
                 else
                 {
@@ -275,10 +298,12 @@ namespace DataChannelOrtc
                     // Sctp_OnDataChannel event on the remote side.
                     Debug.WriteLine("Initiator: Creating the data channel and starting sctp.");
 
+                    _sctp.OnStateChange += Sctp_OnStateChange;
                     _sctp.Start(sctpCaps);
                     _dataChannel = new RTCDataChannel(_sctp, _dataChannelParams);
                     _dataChannel.OnMessage += DataChannel_OnMessage;
                     _dataChannel.OnError += DataChannel_OnError;
+                    _dataChannel.OnStateChange += DataChannel_OnStateChange;
 
                     Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
@@ -298,6 +323,11 @@ namespace DataChannelOrtc
             Debug.WriteLine("DataChannel message: " + evt.Data.Text);
 
             AppendConversation(evt.Data.Text, false);
+        }
+
+        private void DataChannel_OnStateChange(RTCDataChannelStateChangeEvent evt)
+        {
+            Debug.WriteLine("DataChannel sate: " + evt.State);
         }
 
         private void AppendConversation(string text, bool isLocal)
@@ -321,17 +351,17 @@ namespace DataChannelOrtc
             _gatherer.Gather(null);
 
             var iceParams = _gatherer.GetLocalParameters();
-            await _signaler.SendToPeer(SelectedPeer.Id, iceParams.ToJsonString());
-
-            var dtlsParams = _dtls.GetLocalParameters();
-            await _signaler.SendToPeer(SelectedPeer.Id, dtlsParams.ToJsonString());
+            await _signaler.SendToPeer(peer.Id, iceParams.ToJsonString());
 
             // this order guarantees: alice -> bob; bob.start(); bob -> alice; alice.start(); alice -> datachannel -> bob
             if (_isInitiator)
             {
                 var sctpCaps = RTCSctpTransport.GetCapabilities();
-                await _signaler.SendToPeer(SelectedPeer.Id, sctpCaps.ToJsonString());
+                await _signaler.SendToPeer(peer.Id, sctpCaps.ToJsonString());
             }
+
+            var dtlsParams = _dtls.GetLocalParameters();
+            await _signaler.SendToPeer(peer.Id, dtlsParams.ToJsonString());
         }
 
         private void Dtls_OnStateChange(RTCDtlsTransportStateChangedEvent evt)
@@ -355,6 +385,7 @@ namespace DataChannelOrtc
             _dataChannel = evt.DataChannel;
             _dataChannel.OnMessage += DataChannel_OnMessage;
             _dataChannel.OnError += DataChannel_OnError;
+            _dataChannel.OnStateChange += DataChannel_OnStateChange;
 
             // Data channel is now open and ready for use.  This will fire on the receiver side of the call; send
             // a message back to the initiator.
@@ -364,6 +395,11 @@ namespace DataChannelOrtc
             {
                 IsSendEnabled = true;
             });
+        }
+
+        private void Sctp_OnStateChange(RTCSctpTransportStateChangeEvent evt)
+        {
+            Debug.WriteLine("Sctp State Change: " + evt.State);
         }
 
         private void uxSend_Click(object sender, RoutedEventArgs e)
@@ -390,6 +426,7 @@ namespace DataChannelOrtc
         {
             var hostname = NetworkInformation.GetHostNames().FirstOrDefault(h => h.Type == HostNameType.DomainName);
             string ret = hostname?.CanonicalName ?? "<unknown host>";
+            ret = ret + "-" + ((DateTime.Now.Ticks - 621355968000000000) / 10000000).ToString();
             ret = ret + "-dual";
             return ret;
         }
@@ -404,7 +441,9 @@ namespace DataChannelOrtc
             // Signal to the peer that we're going to open a connection.  This gives the peer the opportunity to
             // begin gathering ice candidates immediately.  On the remote peer side, _isInitiator will remain false.
 
-            await _signaler.SendToPeer(SelectedPeer.Id, "OpenDataChannel");
+            RemotePeer = SelectedPeer;
+
+            await _signaler.SendToPeer(RemotePeer.Id, "OpenDataChannel");
 
             OpenDataChannel(SelectedPeer);
         }
