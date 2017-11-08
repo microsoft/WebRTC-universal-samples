@@ -168,6 +168,7 @@ namespace DataChannelOrtc.Signaling
                 "\r\n" +
                 "{3}",
                 _myId, peerId, message.Length, message);
+            //Debug.WriteLine("--> SEND TO PEER\n" + buffer + "===>END");
             return await ControlSocketRequestAsync(buffer);
         }
 
@@ -263,6 +264,7 @@ namespace DataChannelOrtc.Signaling
         /// <returns>False if fails to parse the server response.</returns>
         private bool ParseServerResponse(string buffer, out int peer_id, out int eoh)
         {
+            //Debug.WriteLine("<--- Server reply:\n" + buffer + "<===END");
             peer_id = -1;
             eoh = -1;
             try
