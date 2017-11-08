@@ -139,8 +139,8 @@ namespace DataChannelOrtc
         {
             Ortc.Setup();
             Settings.ApplyDefaults();
-            Logger.InstallTelnetLogger(59999, 60, true);
-            Logger.SetLogLevel(Level.Trace);
+            //Logger.InstallTelnetLogger(59999, 60, true);
+            //Logger.SetLogLevel(Level.Trace);
 
             var name = GetLocalPeerName();
             Debug.WriteLine($"Connecting to server from local peer: {name}");
