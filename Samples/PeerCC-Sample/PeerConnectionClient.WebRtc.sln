@@ -1,32 +1,57 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerConnectionClient.WebRtc", "PeerConnectionClient.WebRtc.csproj", "{A2EA7350-EE59-42C5-9323-C942B058B217}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerConnectionClient.WebRtc", "Client\PeerConnectionClient.WebRtc.csproj", "{A2EA7350-EE59-42C5-9323-C942B058B217}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerConnectionClientCore", "ClientCore\PeerConnectionClientCore.csproj", "{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2EA7350-EE59-42C5-9323-C942B058B217}.Debug|ARM.ActiveCfg = Debug|ARM
+		{A2EA7350-EE59-42C5-9323-C942B058B217}.Debug|ARM.Build.0 = Debug|ARM
+		{A2EA7350-EE59-42C5-9323-C942B058B217}.Debug|ARM.Deploy.0 = Debug|ARM
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Debug|x64.ActiveCfg = Debug|x64
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Debug|x64.Build.0 = Debug|x64
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Debug|x64.Deploy.0 = Debug|x64
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Debug|x86.ActiveCfg = Debug|x86
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Debug|x86.Build.0 = Debug|x86
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Debug|x86.Deploy.0 = Debug|x86
+		{A2EA7350-EE59-42C5-9323-C942B058B217}.Release|ARM.ActiveCfg = Release|ARM
+		{A2EA7350-EE59-42C5-9323-C942B058B217}.Release|ARM.Build.0 = Release|ARM
+		{A2EA7350-EE59-42C5-9323-C942B058B217}.Release|ARM.Deploy.0 = Release|ARM
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Release|x64.ActiveCfg = Release|x64
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Release|x64.Build.0 = Release|x64
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Release|x64.Deploy.0 = Release|x64
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Release|x86.ActiveCfg = Release|x86
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Release|x86.Build.0 = Release|x86
 		{A2EA7350-EE59-42C5-9323-C942B058B217}.Release|x86.Deploy.0 = Release|x86
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Debug|ARM.ActiveCfg = Debug|ARM
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Debug|ARM.Build.0 = Debug|ARM
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Debug|x64.ActiveCfg = Debug|x64
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Debug|x64.Build.0 = Debug|x64
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Debug|x86.ActiveCfg = Debug|x86
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Debug|x86.Build.0 = Debug|x86
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Release|ARM.ActiveCfg = Release|ARM
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Release|ARM.Build.0 = Release|ARM
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Release|x64.ActiveCfg = Release|x64
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Release|x64.Build.0 = Release|x64
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Release|x86.ActiveCfg = Release|x86
+		{217FAA3A-8FC1-4663-BA00-2F842B3FF4E1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBEBCEEF-84C2-488A-BC4C-B6B8082079BD}
 	EndGlobalSection
 EndGlobal
