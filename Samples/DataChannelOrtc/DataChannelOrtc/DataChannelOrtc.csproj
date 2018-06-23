@@ -130,6 +130,14 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Org">
+      <HintPath>..\Ortc\Org.winmd</HintPath>
+    </Reference>
+    <Reference Include="Ortc">
+      <HintPath>..\Ortc\Ortc.winmd</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
