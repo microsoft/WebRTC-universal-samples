@@ -13,7 +13,7 @@ This repo contains the PeerConnection sample WebRTC sample for establishing an a
 
 ## Build requirements
 
-1. Unity version 2017.4.1 with Windows Store .NET Scripting Backend
+1. Unity version 2017.4.0f1 with Windows Store .NET Scripting Backend
 >**Note:** If Unty is not installed on default location (C:\Program Files\Unity), edit install path values in property files common\windows\samples\PeerCC\Client\UnityCommon.props and common\windows\samples\PeerCC\ClientUnity\UnityCommon.props.*
 2. Visual Studio 2017 with SDK 17134
 
